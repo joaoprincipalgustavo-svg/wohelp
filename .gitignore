@@ -1,0 +1,14 @@
+# Dados locais e credenciais: nunca publicar no repositório.
+wohelp.db
+*.db
+.env
+.env.*
+!.env.example
+
+# Ambiente Python e arquivos temporários.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
