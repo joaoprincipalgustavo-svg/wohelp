@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WoHelp - Rede de Apoio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --canvas: #f7f3ef;
@@ -21,7 +24,9 @@
             --shadow: 0 28px 70px -36px rgba(58, 34, 46, .48);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Manrope', sans-serif;
@@ -32,7 +37,8 @@
                 linear-gradient(135deg, #faf7f4 0%, #f4eeeb 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             color: var(--ink);
         }
 
@@ -54,6 +60,7 @@
             flex-wrap: wrap;
             gap: 12px;
         }
+
         .marca {
             display: flex;
             align-items: center;
@@ -64,7 +71,14 @@
             font-size: 25px;
             letter-spacing: -.3px;
         }
-        .marca-marca { width: 9px; height: 9px; border-radius: 50%; background: var(--sand); box-shadow: 0 0 0 5px rgba(220, 168, 94, .15); }
+
+        .marca-marca {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--sand);
+            box-shadow: 0 0 0 5px rgba(220, 168, 94, .15);
+        }
 
         .menu-botoes {
             display: flex;
@@ -74,19 +88,35 @@
             background: rgba(86, 42, 67, .055);
             border-radius: 13px;
         }
+
         nav button.btn-nav {
-            background: none; border: none; color: var(--ink-soft);
+            background: none;
+            border: none;
+            color: var(--ink-soft);
             font-family: 'Manrope', sans-serif;
-            font-size: 12px; font-weight: 800; letter-spacing: .1px;
-            cursor: pointer; padding: 8px 12px; position: relative; z-index: 2;
-            border-radius: 9px; transition: color .32s ease;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .1px;
+            cursor: pointer;
+            padding: 8px 12px;
+            position: relative;
+            z-index: 2;
+            border-radius: 9px;
+            transition: color .32s ease;
         }
-        nav button.btn-nav:hover { color: var(--plum); }
-        nav button.btn-nav.ativo { color: var(--plum); }
+
+        nav button.btn-nav:hover {
+            color: var(--plum);
+        }
+
+        nav button.btn-nav.ativo {
+            color: var(--plum);
+        }
 
         #nav-indicador {
             position: absolute;
-            top: 4px; height: calc(100% - 8px);
+            top: 4px;
+            height: calc(100% - 8px);
             background: rgba(255, 255, 255, .98);
             box-shadow: 0 3px 10px rgba(63, 37, 48, .08);
             border-radius: 9px;
@@ -105,152 +135,509 @@
             cursor: pointer;
             transition: transform .2s ease, box-shadow .2s ease;
         }
-        .perfil-usuario:hover { transform: translateY(-1px); box-shadow: 0 8px 18px -12px rgba(50, 33, 38, .5); }
+
+        .perfil-usuario:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px -12px rgba(50, 33, 38, .5);
+        }
 
         /* ===== Área principal ===== */
         .container {
             background-color: var(--surface);
-            margin: clamp(32px, 6vh, 72px) auto 40px; padding: clamp(34px, 5vw, 56px);
+            margin: clamp(32px, 6vh, 72px) auto 40px;
+            padding: clamp(34px, 5vw, 56px);
             border-radius: 28px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, .8);
-            width: min(92%, 1040px); min-height: 420px;
+            width: min(92%, 1040px);
+            min-height: 420px;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(18px);
         }
+
         .decor-bloom {
-            position: absolute; top: -60px; right: -60px;
-            width: 260px; height: 260px;
-            opacity: .055; pointer-events: none; z-index: 0;
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 260px;
+            height: 260px;
+            opacity: .055;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .aba-conteudo { display: none; position: relative; z-index: 1; opacity: 0; transform: translateY(12px) scale(.985); }
-        .aba-conteudo.ativa { display: block; animation: entra .68s cubic-bezier(.16, 1, .3, 1) both; }
-        .aba-conteudo.saindo { display: block; animation: sair .36s cubic-bezier(.4, 0, 1, 1) both; pointer-events: none; }
-        @keyframes entra {
-            from { opacity: 0; transform: translateY(12px) scale(.985); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        .aba-conteudo {
+            display: none;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(12px) scale(.985);
         }
+
+        .aba-conteudo.ativa {
+            display: block;
+            animation: entra .68s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .aba-conteudo.saindo {
+            display: block;
+            animation: sair .36s cubic-bezier(.4, 0, 1, 1) both;
+            pointer-events: none;
+        }
+
+        @keyframes entra {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.985);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         @keyframes sair {
-            to { opacity: 0; transform: translateY(-8px) scale(.99); }
+            to {
+                opacity: 0;
+                transform: translateY(-8px) scale(.99);
+            }
         }
 
         .eyebrow {
-            display: block; text-align: center;
-            font-size: 12px; font-weight: 800; letter-spacing: 2px;
-            text-transform: uppercase; color: var(--berry);
+            display: block;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--berry);
             margin-bottom: 13px;
         }
+
         h2 {
-            font-family: 'DM Serif Display', serif; font-weight: 400;
-            color: var(--ink); text-align: center; margin: 0 0 8px;
-            font-size: clamp(30px, 5vw, 39px); letter-spacing: -.8px; line-height: 1.08;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            color: var(--ink);
+            text-align: center;
+            margin: 0 0 8px;
+            font-size: clamp(30px, 5vw, 39px);
+            letter-spacing: -.8px;
+            line-height: 1.08;
         }
-        p.subtitulo { color: var(--ink-soft); line-height: 1.7; text-align: center; margin: 14px auto 32px; font-size: 14px; max-width: 420px; }
-        p { color: var(--ink-soft); line-height: 1.6; text-align: center; }
-        .pagina-login .container { width: min(94%, 1180px); min-height: 0; margin-top: clamp(42px, 8vh, 96px); padding: 0 24px 36px; background: transparent; border: 0; border-radius: 0; box-shadow: none; backdrop-filter: none; overflow: visible; }
-        .pagina-login .decor-bloom { display: none; }
-        .intro-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(340px, .85fr); align-items: center; gap: clamp(42px, 7vw, 108px); transform: translateX(-28px); }
-        .login-painel { max-width: 540px; }
-        .intro-copy { text-align: left; }
-        .intro-copy .eyebrow, .intro-copy h2 { text-align: left; }
-        .intro-copy .subtitulo { text-align: left; margin-inline: 0; }
-        .intro-copy h2 { max-width: 390px; }
-        .login-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-        .login-form .campo { margin-top: 0; }
-        .login-form .campo:last-of-type { grid-column: span 2; }
-        .login-form .btn-principal { grid-column: span 2; }
-        .snct-visual { position: relative; min-height: 420px; border-radius: 24px; overflow: hidden; box-shadow: 0 26px 60px -35px rgba(50, 33, 38, .66); background: #522c48; }
-        .snct-visual img { width: 100%; height: 420px; object-fit: cover; display: block; filter: saturate(.82) contrast(.95); transition: transform 1.4s cubic-bezier(.16, 1, .3, 1); }
-        .snct-visual:hover img { transform: scale(1.045); }
-        .snct-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(53, 29, 43, .08) 32%, rgba(53, 29, 43, .7) 100%); }
-        .snct-selo { position: absolute; z-index: 1; left: 24px; bottom: 24px; color: #fffaf7; }
-        .snct-selo strong { display: block; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 38px; letter-spacing: -.7px; line-height: .9; }
-        .snct-selo span { display: block; margin-top: 8px; font-size: 11px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; }
 
-        .perfil-layout { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(32px, 6vw, 86px); align-items: start; }
-        .perfil-resumo { padding-top: 10px; }
-        .perfil-resumo .eyebrow, .perfil-resumo h2, .perfil-resumo p { text-align: left; }
-        .perfil-resumo p { max-width: 300px; font-size: 14px; }
-        .avatar-placeholder { width: 72px; height: 72px; display: grid; place-items: center; margin-bottom: 22px; border-radius: 22px; color: var(--berry); background: linear-gradient(145deg, #f4e5ea, #f9f2e6); border: 1px solid rgba(147, 74, 104, .12); box-shadow: 0 12px 26px -19px rgba(86, 42, 67, .58); }
-        .avatar-placeholder svg { width: 36px; height: 36px; }
-        .perfil-id { display: inline-block; margin-top: 16px; color: var(--berry); font-size: 11px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
-        .perfil-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-        .perfil-form .campo { margin-top: 0; }
-        .perfil-form .campo:last-of-type, .perfil-form .btn-principal { grid-column: span 2; }
-        .mensagem-perfil { grid-column: span 2; padding: 11px 14px; border-radius: 11px; background: #eef5ef; color: #356243; font-size: 12px; font-weight: 700; }
-        .mensagem-perfil.erro { background: #fae9ec; color: #9a3955; }
+        p.subtitulo {
+            color: var(--ink-soft);
+            line-height: 1.7;
+            text-align: center;
+            margin: 14px auto 32px;
+            font-size: 14px;
+            max-width: 420px;
+        }
 
-        label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-        .campo { position: relative; margin-top: 12px; }
-        .campo::before { content: ''; position: absolute; left: 18px; top: 50%; width: 7px; height: 7px; border: 2px solid var(--berry); border-radius: 50%; transform: translateY(-50%); opacity: .75; pointer-events: none; }
+        p {
+            color: var(--ink-soft);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .pagina-login .container {
+            width: min(94%, 1180px);
+            min-height: 0;
+            margin-top: clamp(42px, 8vh, 96px);
+            padding: 0 24px 36px;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            overflow: visible;
+        }
+
+        .pagina-login .decor-bloom {
+            display: none;
+        }
+
+        .intro-layout {
+            display: grid;
+            grid-template-columns: minmax(0, .95fr) minmax(340px, .85fr);
+            align-items: center;
+            gap: clamp(42px, 7vw, 108px);
+            transform: translateX(-28px);
+        }
+
+        .login-painel {
+            max-width: 540px;
+        }
+
+        .intro-copy {
+            text-align: left;
+        }
+
+        .intro-copy .eyebrow,
+        .intro-copy h2 {
+            text-align: left;
+        }
+
+        .intro-copy .subtitulo {
+            text-align: left;
+            margin-inline: 0;
+        }
+
+        .intro-copy h2 {
+            max-width: 390px;
+        }
+
+        .login-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .login-form .campo {
+            margin-top: 0;
+        }
+
+        .login-form .campo:last-of-type {
+            grid-column: span 2;
+        }
+
+        .login-form .btn-principal {
+            grid-column: span 2;
+        }
+
+        .snct-visual {
+            position: relative;
+            min-height: 420px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 26px 60px -35px rgba(50, 33, 38, .66);
+            background: #522c48;
+        }
+
+        .snct-visual img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+            filter: saturate(.82) contrast(.95);
+            transition: transform 1.4s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .snct-visual:hover img {
+            transform: scale(1.045);
+        }
+
+        .snct-visual::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(53, 29, 43, .08) 32%, rgba(53, 29, 43, .7) 100%);
+        }
+
+        .snct-selo {
+            position: absolute;
+            z-index: 1;
+            left: 24px;
+            bottom: 24px;
+            color: #fffaf7;
+        }
+
+        .snct-selo strong {
+            display: block;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 38px;
+            letter-spacing: -.7px;
+            line-height: .9;
+        }
+
+        .snct-selo span {
+            display: block;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .perfil-layout {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: clamp(32px, 6vw, 86px);
+            align-items: start;
+        }
+
+        .perfil-resumo {
+            padding-top: 10px;
+        }
+
+        .perfil-resumo .eyebrow,
+        .perfil-resumo h2,
+        .perfil-resumo p {
+            text-align: left;
+        }
+
+        .perfil-resumo p {
+            max-width: 300px;
+            font-size: 14px;
+        }
+
+        .avatar-placeholder {
+            width: 72px;
+            height: 72px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            border-radius: 22px;
+            color: var(--berry);
+            background: linear-gradient(145deg, #f4e5ea, #f9f2e6);
+            border: 1px solid rgba(147, 74, 104, .12);
+            box-shadow: 0 12px 26px -19px rgba(86, 42, 67, .58);
+        }
+
+        .avatar-placeholder svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .perfil-id {
+            display: inline-block;
+            margin-top: 16px;
+            color: var(--berry);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+        }
+
+        .perfil-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .perfil-form .campo {
+            margin-top: 0;
+        }
+
+        .perfil-form .campo:last-of-type,
+        .perfil-form .btn-principal {
+            grid-column: span 2;
+        }
+
+        .mensagem-perfil {
+            grid-column: span 2;
+            padding: 11px 14px;
+            border-radius: 11px;
+            background: #eef5ef;
+            color: #356243;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mensagem-perfil.erro {
+            background: #fae9ec;
+            color: #9a3955;
+        }
+
+        label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .campo {
+            position: relative;
+            margin-top: 12px;
+        }
+
+        .campo::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            width: 7px;
+            height: 7px;
+            border: 2px solid var(--berry);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            opacity: .75;
+            pointer-events: none;
+        }
+
         input {
-            width: 100%; padding: 15px 18px 15px 38px; border: 1px solid var(--line);
-            border-radius: 13px; box-sizing: border-box; font-size: 14px;
-            font-family: 'Manrope', sans-serif; color: var(--ink);
+            width: 100%;
+            padding: 15px 18px 15px 38px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: 'Manrope', sans-serif;
+            color: var(--ink);
             background: rgba(255, 255, 255, .66);
             transition: border-color .25s, box-shadow .25s, background .25s, transform .25s;
         }
-        input::placeholder { color: #9b858e; opacity: 1; }
+
+        input::placeholder {
+            color: #9b858e;
+            opacity: 1;
+        }
+
         input:focus {
-            outline: none; border-color: rgba(147, 74, 104, .6); background: #fff;
-            box-shadow: 0 0 0 4px rgba(147, 74, 104, .09); transform: translateY(-1px);
+            outline: none;
+            border-color: rgba(147, 74, 104, .6);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(147, 74, 104, .09);
+            transform: translateY(-1px);
         }
 
         .btn-principal {
-            width: 100%; padding: 15px; margin-top: 24px;
+            width: 100%;
+            padding: 15px;
+            margin-top: 24px;
             background: linear-gradient(110deg, var(--plum), var(--berry));
-            color: #ffffff; border: none; border-radius: 12px; font-size: 15.5px;
-            font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: 0.3px;
-            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15.5px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             box-shadow: 0 15px 25px -13px rgba(86, 42, 67, .75);
         }
-        .btn-principal:hover { transform: translateY(-2px); box-shadow: 0 19px 30px -13px rgba(86, 42, 67, .8); }
-        .btn-principal:active { transform: translateY(0); }
-        .btn-principal svg { transition: transform 0.25s; }
-        .btn-principal:hover svg { transform: translateX(4px); }
 
-        button:focus-visible, input:focus-visible {
-            outline: 3px solid var(--sand); outline-offset: 2px;
+        .btn-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 19px 30px -13px rgba(86, 42, 67, .8);
+        }
+
+        .btn-principal:active {
+            transform: translateY(0);
+        }
+
+        .btn-principal svg {
+            transition: transform 0.25s;
+        }
+
+        .btn-principal:hover svg {
+            transform: translateX(4px);
+        }
+
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid var(--sand);
+            outline-offset: 2px;
         }
 
         /* ===== Tela de acesso liberado ===== */
-        .bloom-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .bloom-svg { margin-bottom: 6px; }
+        .bloom-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bloom-svg {
+            margin-bottom: 6px;
+        }
+
         .petal {
             transform-origin: 100px 100px;
-            opacity: 0; transform: scale(0);
+            opacity: 0;
+            transform: scale(0);
             animation: brotar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .p1 { animation-delay: 0.05s; } .p2 { animation-delay: 0.15s; }
-        .p3 { animation-delay: 0.25s; } .p4 { animation-delay: 0.35s; }
-        .p5 { animation-delay: 0.45s; } .p6 { animation-delay: 0.5s; }
+
+        .p1 {
+            animation-delay: 0.05s;
+        }
+
+        .p2 {
+            animation-delay: 0.15s;
+        }
+
+        .p3 {
+            animation-delay: 0.25s;
+        }
+
+        .p4 {
+            animation-delay: 0.35s;
+        }
+
+        .p5 {
+            animation-delay: 0.45s;
+        }
+
+        .p6 {
+            animation-delay: 0.5s;
+        }
+
         .miolo {
-            transform-origin: 100px 100px; opacity: 0; transform: scale(0);
+            transform-origin: 100px 100px;
+            opacity: 0;
+            transform: scale(0);
             animation: brotar 0.5s ease 0.62s forwards;
         }
-        @keyframes brotar { to { opacity: 1; transform: scale(1); } }
+
+        @keyframes brotar {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
         .alerta {
             background: linear-gradient(120deg, #f7e6eb, #f6e5c9);
-            color: var(--plum); padding: 18px 22px;
-            border-radius: 14px; text-align: center; font-weight: 700; font-size: 16.5px;
-            border: 1px solid var(--blush); margin: 6px 0 18px;
+            color: var(--plum);
+            padding: 18px 22px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16.5px;
+            border: 1px solid var(--blush);
+            margin: 6px 0 18px;
         }
 
         .tag-em-breve {
-            display: inline-block; background: #f4e7eb; color: var(--berry);
-            font-size: 12px; font-weight: 800; letter-spacing: 0.3px;
-            padding: 5px 14px; border-radius: 999px; margin-top: 10px;
+            display: inline-block;
+            background: #f4e7eb;
+            color: var(--berry);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-top: 10px;
         }
 
-        .sobre-copy { max-width: 660px; margin: 0 auto; }
-        .sobre-copy p { font-size: 15px; }
+        .sobre-copy {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        .sobre-copy p {
+            font-size: 15px;
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
@@ -258,24 +645,107 @@
         }
 
         @media (max-width: 640px) {
-            nav { width: calc(100% - 24px); flex-direction: column; align-items: stretch; padding: 12px; }
-            .marca { padding: 2px 6px; }
-            .menu-botoes { width: 100%; overflow-x: auto; }
-            nav button.btn-nav { white-space: nowrap; flex: 1; padding: 8px 9px; font-size: 11px; }
-            .perfil-usuario { display: none; }
-            .container { padding: 36px 24px; margin: 28px auto; min-height: 450px; }
-            .pagina-login .container { width: 100%; margin-top: 30px; padding: 0 24px 30px; }
-            .intro-layout, .perfil-layout { grid-template-columns: 1fr; gap: 28px; transform: none; }
-            .intro-copy, .intro-copy .eyebrow, .intro-copy h2, .intro-copy .subtitulo, .sobre-copy .eyebrow, .sobre-copy h2, .sobre-copy p, .perfil-resumo, .perfil-resumo .eyebrow, .perfil-resumo h2, .perfil-resumo p { text-align: center; }
-            .avatar-placeholder { margin-inline: auto; }
-            .intro-copy h2, .intro-copy .subtitulo { margin-inline: auto; }
-            .login-form { grid-template-columns: 1fr; }
-            .login-form .campo:last-of-type, .login-form .btn-principal { grid-column: auto; }
-            .perfil-form { grid-template-columns: 1fr; }
-            .perfil-form .campo:last-of-type, .perfil-form .btn-principal, .mensagem-perfil { grid-column: auto; }
-            .login-painel { max-width: 100%; }
-            .snct-visual, .snct-visual img { min-height: 240px; height: 240px; }
-            h2 { font-size: 25px; }
+            nav {
+                width: calc(100% - 24px);
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px;
+            }
+
+            .marca {
+                padding: 2px 6px;
+            }
+
+            .menu-botoes {
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            nav button.btn-nav {
+                white-space: nowrap;
+                flex: 1;
+                padding: 8px 9px;
+                font-size: 11px;
+            }
+
+            .perfil-usuario {
+                display: none;
+            }
+
+            .container {
+                padding: 36px 24px;
+                margin: 28px auto;
+                min-height: 450px;
+            }
+
+            .pagina-login .container {
+                width: 100%;
+                margin-top: 30px;
+                padding: 0 24px 30px;
+            }
+
+            .intro-layout,
+            .perfil-layout {
+                grid-template-columns: 1fr;
+                gap: 28px;
+                transform: none;
+            }
+
+            .intro-copy,
+            .intro-copy .eyebrow,
+            .intro-copy h2,
+            .intro-copy .subtitulo,
+            .sobre-copy .eyebrow,
+            .sobre-copy h2,
+            .sobre-copy p,
+            .perfil-resumo,
+            .perfil-resumo .eyebrow,
+            .perfil-resumo h2,
+            .perfil-resumo p {
+                text-align: center;
+            }
+
+            .avatar-placeholder {
+                margin-inline: auto;
+            }
+
+            .intro-copy h2,
+            .intro-copy .subtitulo {
+                margin-inline: auto;
+            }
+
+            .login-form {
+                grid-template-columns: 1fr;
+            }
+
+            .login-form .campo:last-of-type,
+            .login-form .btn-principal {
+                grid-column: auto;
+            }
+
+            .perfil-form {
+                grid-template-columns: 1fr;
+            }
+
+            .perfil-form .campo:last-of-type,
+            .perfil-form .btn-principal,
+            .mensagem-perfil {
+                grid-column: auto;
+            }
+
+            .login-painel {
+                max-width: 100%;
+            }
+
+            .snct-visual,
+            .snct-visual img {
+                min-height: 240px;
+                height: 240px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
         }
 
         /* Camada visual WoHelp: mantém a paleta acolhedora com contraste STEM. */
@@ -312,13 +782,41 @@
             backdrop-filter: blur(16px);
         }
 
-        .marca { font-size: 24px; letter-spacing: -.6px; }
-        .marca-marca { background: var(--sand); box-shadow: 0 0 0 5px rgba(228, 173, 85, .18); }
-        .menu-botoes { background: #f1eef5; padding: 5px; gap: 3px; }
-        nav button.btn-nav { padding: 9px 14px; font-size: 12px; }
-        nav button.btn-nav.ativo { color: var(--plum); }
-        #nav-indicador { background: #fff; box-shadow: 0 2px 8px rgba(43, 33, 59, .11); }
-        .perfil-usuario { border-color: var(--line); color: var(--plum); background: #fff; }
+        .marca {
+            font-size: 24px;
+            letter-spacing: -.6px;
+        }
+
+        .marca-marca {
+            background: var(--sand);
+            box-shadow: 0 0 0 5px rgba(228, 173, 85, .18);
+        }
+
+        .menu-botoes {
+            background: #f1eef5;
+            padding: 5px;
+            gap: 3px;
+        }
+
+        nav button.btn-nav {
+            padding: 9px 14px;
+            font-size: 12px;
+        }
+
+        nav button.btn-nav.ativo {
+            color: var(--plum);
+        }
+
+        #nav-indicador {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(43, 33, 59, .11);
+        }
+
+        .perfil-usuario {
+            border-color: var(--line);
+            color: var(--plum);
+            background: #fff;
+        }
 
         .container {
             width: min(1180px, calc(100% - 48px));
@@ -342,13 +840,39 @@
             gap: clamp(48px, 7vw, 100px);
             transform: none;
         }
-        .login-painel { max-width: 560px; }
-        .intro-copy { margin-bottom: 26px; }
-        .intro-copy .eyebrow, .perfil-resumo .eyebrow, .sobre-copy .eyebrow { color: #684080; }
-        .eyebrow { font-size: 11px; letter-spacing: 1.7px; }
-        h2 { font-size: clamp(32px, 4vw, 46px); letter-spacing: -1.2px; line-height: 1.1; }
-        .intro-copy h2 { max-width: 460px; }
-        p.subtitulo { color: var(--ink-soft); }
+
+        .login-painel {
+            max-width: 560px;
+        }
+
+        .intro-copy {
+            margin-bottom: 26px;
+        }
+
+        .intro-copy .eyebrow,
+        .perfil-resumo .eyebrow,
+        .sobre-copy .eyebrow {
+            color: #684080;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 1.7px;
+        }
+
+        h2 {
+            font-size: clamp(32px, 4vw, 46px);
+            letter-spacing: -1.2px;
+            line-height: 1.1;
+        }
+
+        .intro-copy h2 {
+            max-width: 460px;
+        }
+
+        p.subtitulo {
+            color: var(--ink-soft);
+        }
 
         .snct-visual {
             min-height: 480px;
@@ -357,27 +881,56 @@
             background: #342450;
             box-shadow: 0 28px 56px -36px rgba(38, 25, 54, .72);
         }
-        .snct-visual img { height: 480px; }
+
+        .snct-visual img {
+            height: 480px;
+        }
+
         .snct-visual::after {
             background: linear-gradient(180deg, rgba(36, 24, 51, .03) 30%, rgba(36, 24, 51, .72) 100%);
         }
-        .snct-selo { left: 28px; bottom: 28px; }
-        .snct-selo strong { font-size: 42px; }
-        .snct-selo span { letter-spacing: 1.8px; }
 
-        .login-form, .perfil-form { gap: 14px; }
-        .campo { margin-top: 0; }
-        .campo::before { display: none; }
+        .snct-selo {
+            left: 28px;
+            bottom: 28px;
+        }
+
+        .snct-selo strong {
+            font-size: 42px;
+        }
+
+        .snct-selo span {
+            letter-spacing: 1.8px;
+        }
+
+        .login-form,
+        .perfil-form {
+            gap: 14px;
+        }
+
+        .campo {
+            margin-top: 0;
+        }
+
+        .campo::before {
+            display: none;
+        }
+
         label {
             position: static;
             display: block;
-            width: auto; height: auto;
+            width: auto;
+            height: auto;
             margin: 0 0 7px 2px;
-            overflow: visible; clip: auto;
+            overflow: visible;
+            clip: auto;
             color: #393445;
-            font-size: 12px; font-weight: 800; letter-spacing: .1px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .1px;
             white-space: normal;
         }
+
         input {
             min-height: 50px;
             padding: 13px 15px;
@@ -387,15 +940,24 @@
             color: var(--ink);
             font-size: 14px;
         }
-        input::placeholder { color: #777b89; }
-        input:hover { border-color: #b9afc7; }
+
+        input::placeholder {
+            color: #777b89;
+        }
+
+        input:hover {
+            border-color: #b9afc7;
+        }
+
         input:focus {
             border-color: #70418f;
             background: #fff;
             box-shadow: 0 0 0 4px rgba(112, 65, 143, .13);
             transform: none;
         }
-        input:focus-visible, button:focus-visible {
+
+        input:focus-visible,
+        button:focus-visible {
             outline: 3px solid #d69931;
             outline-offset: 3px;
         }
@@ -408,32 +970,71 @@
             background: linear-gradient(110deg, #342450, #70418f);
             box-shadow: 0 12px 24px -15px rgba(52, 36, 80, .85);
         }
-        .btn-principal:hover { box-shadow: 0 16px 28px -14px rgba(52, 36, 80, .7); }
-        .btn-principal:disabled { opacity: .76; cursor: wait; transform: none; }
+
+        .btn-principal:hover {
+            box-shadow: 0 16px 28px -14px rgba(52, 36, 80, .7);
+        }
+
+        .btn-principal:disabled {
+            opacity: .76;
+            cursor: wait;
+            transform: none;
+        }
+
         .btn-principal .spinner {
-            width: 16px; height: 16px;
+            width: 16px;
+            height: 16px;
             border: 2px solid rgba(255, 255, 255, .45);
             border-top-color: #fff;
             border-radius: 50%;
             animation: girar .7s linear infinite;
         }
-        @keyframes girar { to { transform: rotate(360deg); } }
 
-        .perfil-layout { grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr); gap: clamp(40px, 7vw, 92px); }
-        .perfil-resumo { padding-top: 0; }
-        .perfil-resumo h2 { max-width: 360px; }
-        .perfil-resumo p { color: var(--ink-soft); line-height: 1.75; }
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .perfil-layout {
+            grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr);
+            gap: clamp(40px, 7vw, 92px);
+        }
+
+        .perfil-resumo {
+            padding-top: 0;
+        }
+
+        .perfil-resumo h2 {
+            max-width: 360px;
+        }
+
+        .perfil-resumo p {
+            color: var(--ink-soft);
+            line-height: 1.75;
+        }
+
         .avatar-placeholder {
-            width: 68px; height: 68px; margin-bottom: 25px;
-            color: var(--berry); background: #f3eef7;
-            border: 1px solid #e7dced; border-radius: 20px;
+            width: 68px;
+            height: 68px;
+            margin-bottom: 25px;
+            color: var(--berry);
+            background: #f3eef7;
+            border: 1px solid #e7dced;
+            border-radius: 20px;
         }
+
         .perfil-id {
-            padding: 7px 11px; border: 1px solid #e4dbea;
-            border-radius: 999px; background: #faf8fc;
-            color: #593775; letter-spacing: .4px;
+            padding: 7px 11px;
+            border: 1px solid #e4dbea;
+            border-radius: 999px;
+            background: #faf8fc;
+            color: #593775;
+            letter-spacing: .4px;
         }
-        .mensagem-perfil, .alerta {
+
+        .mensagem-perfil,
+        .alerta {
             padding: 13px 15px;
             border: 1px solid #c9e5d4;
             border-radius: 11px;
@@ -441,124 +1042,533 @@
             color: #245d3a;
             line-height: 1.5;
         }
-        .mensagem-perfil.erro { border-color: #edc5c9; background: #fff2f2; color: #8b2634; }
-        .tag-em-breve { padding: 7px 13px; border: 1px solid #e4dbea; background: #f7f3fa; color: #5b3974; }
-        .sobre-copy { max-width: 700px; }
-        .sobre-copy p { color: var(--ink-soft); font-size: 15px; line-height: 1.85; }
+
+        .mensagem-perfil.erro {
+            border-color: #edc5c9;
+            background: #fff2f2;
+            color: #8b2634;
+        }
+
+        .tag-em-breve {
+            padding: 7px 13px;
+            border: 1px solid #e4dbea;
+            background: #f7f3fa;
+            color: #5b3974;
+        }
+
+        .sobre-copy {
+            max-width: 700px;
+        }
+
+        .sobre-copy p {
+            color: var(--ink-soft);
+            font-size: 15px;
+            line-height: 1.85;
+        }
 
         @media (max-width: 900px) {
-            .intro-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr); gap: 34px; }
-            .snct-visual, .snct-visual img { min-height: 390px; height: 390px; }
-            .perfil-layout { grid-template-columns: minmax(190px, .7fr) minmax(0, 1.3fr); gap: 36px; }
+            .intro-layout {
+                grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr);
+                gap: 34px;
+            }
+
+            .snct-visual,
+            .snct-visual img {
+                min-height: 390px;
+                height: 390px;
+            }
+
+            .perfil-layout {
+                grid-template-columns: minmax(190px, .7fr) minmax(0, 1.3fr);
+                gap: 36px;
+            }
         }
 
         @media (max-width: 640px) {
-            nav { width: calc(100% - 24px); margin-top: 12px; padding: 12px; border-radius: 15px; }
-            .menu-botoes { padding: 4px; }
-            nav button.btn-nav { padding: 9px 8px; font-size: 11px; }
-            .container { width: calc(100% - 24px); margin: 22px auto 30px; padding: 30px 22px; border-radius: 20px; }
-            .pagina-login .container { width: calc(100% - 24px); margin-top: 24px; padding: 8px 4px 32px; }
-            .intro-layout, .perfil-layout { grid-template-columns: 1fr; gap: 28px; }
-            .intro-copy, .intro-copy .eyebrow, .intro-copy h2, .perfil-resumo, .perfil-resumo .eyebrow, .perfil-resumo h2, .perfil-resumo p { text-align: left; }
-            .intro-copy h2 { font-size: clamp(31px, 9vw, 39px); }
-            .login-form, .perfil-form { grid-template-columns: 1fr; gap: 12px; }
-            .login-form .campo:last-of-type, .login-form .btn-principal,
-            .perfil-form .campo:last-of-type, .perfil-form .btn-principal,
-            .perfil-form .mensagem-perfil { grid-column: auto; }
-            .snct-visual, .snct-visual img { min-height: 250px; height: 250px; }
-            .snct-selo { left: 20px; bottom: 20px; }
-            .snct-selo strong { font-size: 34px; }
-            .avatar-placeholder { margin-inline: 0; }
-            h2 { font-size: 31px; }
+            nav {
+                width: calc(100% - 24px);
+                margin-top: 12px;
+                padding: 12px;
+                border-radius: 15px;
+            }
+
+            .menu-botoes {
+                padding: 4px;
+            }
+
+            nav button.btn-nav {
+                padding: 9px 8px;
+                font-size: 11px;
+            }
+
+            .container {
+                width: calc(100% - 24px);
+                margin: 22px auto 30px;
+                padding: 30px 22px;
+                border-radius: 20px;
+            }
+
+            .pagina-login .container {
+                width: calc(100% - 24px);
+                margin-top: 24px;
+                padding: 8px 4px 32px;
+            }
+
+            .intro-layout,
+            .perfil-layout {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .intro-copy,
+            .intro-copy .eyebrow,
+            .intro-copy h2,
+            .perfil-resumo,
+            .perfil-resumo .eyebrow,
+            .perfil-resumo h2,
+            .perfil-resumo p {
+                text-align: left;
+            }
+
+            .intro-copy h2 {
+                font-size: clamp(31px, 9vw, 39px);
+            }
+
+            .login-form,
+            .perfil-form {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .login-form .campo:last-of-type,
+            .login-form .btn-principal,
+            .perfil-form .campo:last-of-type,
+            .perfil-form .btn-principal,
+            .perfil-form .mensagem-perfil {
+                grid-column: auto;
+            }
+
+            .snct-visual,
+            .snct-visual img {
+                min-height: 250px;
+                height: 250px;
+            }
+
+            .snct-selo {
+                left: 20px;
+                bottom: 20px;
+            }
+
+            .snct-selo strong {
+                font-size: 34px;
+            }
+
+            .avatar-placeholder {
+                margin-inline: 0;
+            }
+
+            h2 {
+                font-size: 31px;
+            }
         }
-    
+
         /* ===== Quem Somos e História (estilos escopados: .qs-* e .hist-*) ===== */
-        .qs-wrap, .hist-wrap { max-width: 980px; margin: 0 auto; }
-        .qs-lead { max-width: 660px; margin: 14px auto 36px; font-size: 16px; line-height: 1.8; }
-        .qs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-        .qs-card { padding: 26px 26px 24px; border: 1px solid var(--line); border-radius: 16px; background: #fbfbfd; }
-        .qs-card h3, .hist-item h3 { margin: 0 0 8px; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 22px; line-height: 1.2; letter-spacing: -.3px; color: var(--plum); }
-        .qs-card p, .hist-item p { margin: 0; text-align: left; font-size: 14.5px; line-height: 1.75; }
-        .qs-card p + p, .hist-item p + p { margin-top: 10px; }
-        .qs-tag { display: block; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--berry); }
-        .qs-dados { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
-        .qs-dado { padding: 22px 20px; border: 1px solid #e7dced; border-radius: 16px; background: linear-gradient(145deg, #f3eef7, #faf6ec); }
-        .qs-dado strong { display: block; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 32px; line-height: 1; letter-spacing: -.5px; color: var(--plum); }
-        .qs-dado span { display: block; margin-top: 10px; font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); }
-        .qs-fonte { max-width: 760px; margin: 14px auto 0; font-size: 11.5px; line-height: 1.6; color: #8a8493; }
-        .hist-lead { max-width: 640px; margin: 14px auto 0; font-size: 16px; line-height: 1.8; }
-        .hist-linha { position: relative; max-width: 760px; margin: 40px auto 0; padding-left: 34px; }
-        .hist-linha::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 30px; width: 2px; background: linear-gradient(var(--berry), var(--sand)); opacity: .35; }
-        .hist-item { position: relative; padding-bottom: 32px; }
-        .hist-item::before { content: ''; position: absolute; left: -34px; top: 4px; width: 16px; height: 16px; box-sizing: border-box; border: 3px solid var(--berry); border-radius: 50%; background: #fff; }
-        .hist-item.atual::before { border-color: var(--sand); background: var(--sand); }
-        .hist-etapa { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--berry); }
-        .hist-nota { margin-top: 4px; text-align: center; }
+        .qs-wrap,
+        .hist-wrap {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .qs-lead {
+            max-width: 660px;
+            margin: 14px auto 36px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .qs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .qs-card {
+            padding: 26px 26px 24px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: #fbfbfd;
+        }
+
+        .qs-card h3,
+        .hist-item h3 {
+            margin: 0 0 8px;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 22px;
+            line-height: 1.2;
+            letter-spacing: -.3px;
+            color: var(--plum);
+        }
+
+        .qs-card p,
+        .hist-item p {
+            margin: 0;
+            text-align: left;
+            font-size: 14.5px;
+            line-height: 1.75;
+        }
+
+        .qs-card p+p,
+        .hist-item p+p {
+            margin-top: 10px;
+        }
+
+        .qs-tag {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--berry);
+        }
+
+        .qs-dados {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .qs-dado {
+            padding: 22px 20px;
+            border: 1px solid #e7dced;
+            border-radius: 16px;
+            background: linear-gradient(145deg, #f3eef7, #faf6ec);
+        }
+
+        .qs-dado strong {
+            display: block;
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 1;
+            letter-spacing: -.5px;
+            color: var(--plum);
+        }
+
+        .qs-dado span {
+            display: block;
+            margin-top: 10px;
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: var(--ink-soft);
+        }
+
+        .qs-fonte {
+            max-width: 760px;
+            margin: 14px auto 0;
+            font-size: 11.5px;
+            line-height: 1.6;
+            color: #8a8493;
+        }
+
+        .hist-lead {
+            max-width: 640px;
+            margin: 14px auto 0;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .hist-linha {
+            position: relative;
+            max-width: 760px;
+            margin: 40px auto 0;
+            padding-left: 34px;
+        }
+
+        .hist-linha::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 30px;
+            width: 2px;
+            background: linear-gradient(var(--berry), var(--sand));
+            opacity: .35;
+        }
+
+        .hist-item {
+            position: relative;
+            padding-bottom: 32px;
+        }
+
+        .hist-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            box-sizing: border-box;
+            border: 3px solid var(--berry);
+            border-radius: 50%;
+            background: #fff;
+        }
+
+        .hist-item.atual::before {
+            border-color: var(--sand);
+            background: var(--sand);
+        }
+
+        .hist-etapa {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--berry);
+        }
+
+        .hist-nota {
+            margin-top: 4px;
+            text-align: center;
+        }
+
         @media (max-width: 640px) {
-            .qs-grid, .qs-dados { grid-template-columns: 1fr; }
-            .qs-card { padding: 22px 20px; }
-            .hist-linha { padding-left: 28px; }
-            .hist-item::before { left: -28px; }
+
+            .qs-grid,
+            .qs-dados {
+                grid-template-columns: 1fr;
+            }
+
+            .qs-card {
+                padding: 22px 20px;
+            }
+
+            .hist-linha {
+                padding-left: 28px;
+            }
+
+            .hist-item::before {
+                left: -28px;
+            }
+        }
+
+        /* ===== CHAT GLOBAL ===== */
+
+        .chat-subtitulo {
+            margin-bottom: 24px;
+        }
+
+        .chat-mensagens {
+            width: 100%;
+            max-width: 820px;
+            height: 420px;
+            margin: 0 auto;
+            padding: 18px;
+            overflow-y: auto;
+
+            background: #f7f8fb;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-carregando {
+            margin: auto;
+            color: var(--ink-soft);
+            font-size: 13px;
+        }
+
+        .chat-vazio {
+            margin: auto;
+            color: var(--ink-soft);
+            font-size: 13px;
+        }
+
+        .chat-mensagem {
+            display: flex;
+            flex-direction: column;
+            align-self: flex-start;
+
+            max-width: 78%;
+            padding: 10px 14px;
+
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+
+            box-shadow: 0 4px 12px -10px rgba(36, 26, 53, .45);
+        }
+
+        .chat-mensagem.propria {
+            align-self: flex-end;
+            background: #f1eaf5;
+            border-color: #dfd0e8;
+        }
+
+        .chat-nome {
+            margin-bottom: 3px;
+
+            color: var(--berry);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .chat-texto {
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.5;
+
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .chat-hora {
+            margin-top: 4px;
+
+            color: var(--ink-soft);
+            font-size: 10px;
+        }
+
+        .chat-form {
+            width: 100%;
+            max-width: 820px;
+            margin: 14px auto 0;
+
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .chat-form input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-form .btn-principal {
+            width: auto;
+            min-width: 100px;
+            margin-top: 0;
+        }
+
+        .chat-login-aviso {
+            margin-top: 24px;
+            padding: 14px;
+
+            border-radius: 12px;
+            background: #f7f3fa;
+            border: 1px solid #e4dbea;
+
+            color: var(--ink-soft);
+        }
+
+        @media (max-width: 640px) {
+            .chat-mensagens {
+                height: 380px;
+                padding: 12px;
+            }
+
+            .chat-mensagem {
+                max-width: 88%;
+            }
+
+            .chat-form {
+                flex-direction: column;
+            }
+
+            .chat-form .btn-principal {
+                width: 100%;
+            }
         }
     </style>
 </head>
-<body class="{% if not nome_usuario %}pagina-login{% endif %}">
-        <!-- Menu Superior -->
+
+<body class="{% if not nome_usuario %}pagina-login{% endif %}" data-aluno-id="{{ aluno['id'] if aluno else '' }}">
+    <!-- Menu Superior -->
     <nav aria-label="Navegação principal">
         <div class="marca">
             <span class="marca-marca" aria-hidden="true"></span>
             WoHelp
         </div>
         <div class="menu-botoes" id="menu-botoes">
-            <button type="button" onclick="mudarAba('{% if nome_usuario %}perfil{% else %}cadastro{% endif %}', this)" class="btn-nav ativo" id="btn-cadastro" aria-controls="{% if nome_usuario %}perfil{% else %}cadastro{% endif %}" aria-current="page">
+            <button type="button" onclick="mudarAba('{% if nome_usuario %}perfil{% else %}cadastro{% endif %}', this)"
+                class="btn-nav ativo" id="btn-cadastro"
+                aria-controls="{% if nome_usuario %}perfil{% else %}cadastro{% endif %}" aria-current="page">
                 {% if nome_usuario %}Meu Perfil{% else %}Cadastro{% endif %}
             </button>
-            <button type="button" onclick="mudarAba('quem-somos', this)" class="btn-nav" id="btn-quem-somos" aria-controls="quem-somos">Quem Somos</button>
-            <button type="button" onclick="mudarAba('historia', this)" class="btn-nav" id="btn-historia" aria-controls="historia">História</button>
-            <button type="button" onclick="mudarAba('chat', this)" class="btn-nav" id="btn-chat" aria-controls="chat">Chat</button>
+            <button type="button" onclick="mudarAba('quem-somos', this)" class="btn-nav" id="btn-quem-somos"
+                aria-controls="quem-somos">Quem Somos</button>
+            <button type="button" onclick="mudarAba('historia', this)" class="btn-nav" id="btn-historia"
+                aria-controls="historia">História</button>
+            <button type="button" onclick="mudarAba('chat', this)" class="btn-nav" id="btn-chat"
+                aria-controls="chat">Chat</button>
             <div id="nav-indicador"></div>
         </div>
         <!-- Aparece APENAS se a usuária já estiver cadastrada/logada -->
         {% if nome_usuario %}
-            <button class="perfil-usuario" type="button" onclick="mudarAba('perfil', document.getElementById('btn-cadastro'))">
-                Olá {{ nome_usuario }}
-            </button>
+        <button class="perfil-usuario" type="button"
+            onclick="mudarAba('perfil', document.getElementById('btn-cadastro'))">
+            Olá {{ nome_usuario }}
+        </button>
         {% endif %}
     </nav>
 
     <!-- Área Principal -->
     <main class="container">
         <svg class="decor-bloom" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-            <ellipse cx="100" cy="55" rx="26" ry="42" fill="#A62355"/>
-            <ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355"/>
-            <ellipse cx="100" cy="145" rx="26" ry="42" fill="#A62355"/>
-            <ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355"/>
+            <ellipse cx="100" cy="55" rx="26" ry="42" fill="#A62355" />
+            <ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355" />
+            <ellipse cx="100" cy="145" rx="26" ry="42" fill="#A62355" />
+            <ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355" />
         </svg>
 
         <!-- ABA PRINCIPAL (Cadastro ou Perfil Liberado) -->
         <div id="cadastro" class="aba-conteudo {% if not abrir_perfil %}ativa{% endif %}">
 
             {% if nome_usuario %}
-                <!-- Acabou de se cadastrar: mostra a mensagem de boas-vindas -->
-                <div class="bloom-wrap">
-                    <svg class="bloom-svg" width="110" height="110" viewBox="0 0 200 200" aria-hidden="true">
-                        <g class="petal p1"><ellipse cx="100" cy="55" rx="26" ry="42" fill="#C9457C"/></g>
-                        <g class="petal p2"><ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355"/></g>
-                        <g class="petal p3"><ellipse cx="100" cy="145" rx="26" ry="42" fill="#C9457C"/></g>
-                        <g class="petal p4"><ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355"/></g>
-                        <g transform="rotate(45 100 100)"><g class="petal p5"><ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7"/></g></g>
-                        <g transform="rotate(-45 100 100)"><g class="petal p6"><ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7"/></g></g>
-                        <circle class="miolo" cx="100" cy="100" r="19" fill="#E2A54D"/>
-                    </svg>
-                    <h2> Bem vinda(o)</h2>
-                </div>
-                <div class="alerta" role="status">{% if mensagem %}{{ mensagem }}{% else %}Cadastro realizado com sucesso. Seu perfil está pronto.{% endif %}</div>
-                <p>Use o menu acima para explorar sua rede de apoio.</p>
+            <!-- Acabou de se cadastrar: mostra a mensagem de boas-vindas -->
+            <div class="bloom-wrap">
+                <svg class="bloom-svg" width="110" height="110" viewBox="0 0 200 200" aria-hidden="true">
+                    <g class="petal p1">
+                        <ellipse cx="100" cy="55" rx="26" ry="42" fill="#C9457C" />
+                    </g>
+                    <g class="petal p2">
+                        <ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355" />
+                    </g>
+                    <g class="petal p3">
+                        <ellipse cx="100" cy="145" rx="26" ry="42" fill="#C9457C" />
+                    </g>
+                    <g class="petal p4">
+                        <ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355" />
+                    </g>
+                    <g transform="rotate(45 100 100)">
+                        <g class="petal p5">
+                            <ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7" />
+                        </g>
+                    </g>
+                    <g transform="rotate(-45 100 100)">
+                        <g class="petal p6">
+                            <ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7" />
+                        </g>
+                    </g>
+                    <circle class="miolo" cx="100" cy="100" r="19" fill="#E2A54D" />
+                </svg>
+                <h2> Bem vinda(o)</h2>
+            </div>
+            <div class="alerta" role="status">{% if mensagem %}{{ mensagem }}{% else %}Cadastro realizado com sucesso.
+                Seu perfil está pronto.{% endif %}</div>
+            <p>Use o menu acima para explorar sua rede de apoio.</p>
 
             {% else %}
-                <!-- Ainda não se cadastrou: formulário -->
-                <div class="intro-layout">
-                    <div class="login-painel">
+            <!-- Ainda não se cadastrou: formulário -->
+            <div class="intro-layout">
+                <div class="login-painel">
                     <div class="intro-copy">
                         <span class="eyebrow">Rede de apoio</span>
                         <h2>Diga-nos um pouco sobre você</h2>
@@ -571,35 +1581,44 @@
                     <form action="/cadastrar" method="POST" class="login-form">
                         <div class="campo">
                             <label for="nome">Como podemos te chamar?</label>
-                            <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?" autocomplete="name" maxlength="120" required>
+                            <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?"
+                                autocomplete="name" maxlength="120" required>
                         </div>
 
                         <div class="campo">
                             <label for="idade">Sua idade</label>
-                            <input type="number" id="idade" name="idade" placeholder="Qual é a sua idade?" min="1" max="120" inputmode="numeric" required>
+                            <input type="number" id="idade" name="idade" placeholder="Qual é a sua idade?" min="1"
+                                max="120" inputmode="numeric" required>
                         </div>
 
                         <div class="campo">
                             <label for="universidade">Onde pretende estudar? Opcional</label>
-                            <input type="text" id="universidade" name="universidade" placeholder="Onde pretende estudar? (opcional)" maxlength="200">
+                            <input type="text" id="universidade" name="universidade"
+                                placeholder="Onde pretende estudar? (opcional)" maxlength="200">
                         </div>
 
                         <div class="campo">
                             <label for="aspiracao">Qual a sua maior aspiração hoje?</label>
-                            <input type="text" id="aspiracao" name="aspiracao" placeholder="Qual é a sua maior aspiração hoje?" maxlength="300" required>
+                            <input type="text" id="aspiracao" name="aspiracao"
+                                placeholder="Qual é a sua maior aspiração hoje?" maxlength="300" required>
                         </div>
 
                         <button type="submit" class="btn-principal">
                             Iniciar Jornada
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
                         </button>
                     </form>
-                    </div>
-                    <aside class="snct-visual" aria-label="Semana Nacional de Ciência e Tecnologia 2026">
-                        <img src="https://static.wixstatic.com/media/9ed0db_4ba9481b77334ffd878c0e3de927f136~mv2.jpeg/v1/fill/w_1000,h_500,al_c,q_85,usm_0.66_1.00_0.01/9ed0db_4ba9481b77334ffd878c0e3de927f136~mv2.jpeg" alt="Arte da Semana Nacional de Ciência e Tecnologia 2026" loading="eager">
-                        <div class="snct-selo"><strong>SNCT 2026</strong><span>Ciência Delas</span></div>
-                    </aside>
                 </div>
+                <aside class="snct-visual" aria-label="Semana Nacional de Ciência e Tecnologia 2026">
+                    <img src="https://static.wixstatic.com/media/9ed0db_4ba9481b77334ffd878c0e3de927f136~mv2.jpeg/v1/fill/w_1000,h_500,al_c,q_85,usm_0.66_1.00_0.01/9ed0db_4ba9481b77334ffd878c0e3de927f136~mv2.jpeg"
+                        alt="Arte da Semana Nacional de Ciência e Tecnologia 2026" loading="eager">
+                    <div class="snct-selo"><strong>SNCT 2026</strong><span>Ciência Delas</span></div>
+                </aside>
+            </div>
             {% endif %}
         </div>
 
@@ -609,14 +1628,16 @@
             <div class="perfil-layout">
                 <div class="perfil-resumo">
                     <div class="avatar-placeholder" aria-label="Foto de perfil padrão">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="8" r="3.5"/>
-                            <path d="M4.8 20c.9-3.3 3.3-5.1 7.2-5.1s6.3 1.8 7.2 5.1"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="3.5" />
+                            <path d="M4.8 20c.9-3.3 3.3-5.1 7.2-5.1s6.3 1.8 7.2 5.1" />
                         </svg>
                     </div>
                     <span class="eyebrow">Seu espaço</span>
                     <h2>Seu perfil, do seu jeito.</h2>
-                    <p>Confira as informações que compartilhamos na sua jornada. Você pode atualizá-las quando precisar.</p>
+                    <p>Confira as informações que compartilhamos na sua jornada. Você pode atualizá-las quando precisar.
+                    </p>
                     <span class="perfil-id">Cadastro #{{ aluno['id'] }}</span>
                 </div>
 
@@ -630,23 +1651,33 @@
 
                     <div class="campo">
                         <label for="perfil-nome">Como podemos te chamar?</label>
-                        <input type="text" id="perfil-nome" name="nome" value="{{ aluno['nome'] }}" autocomplete="name" maxlength="120" required>
+                        <input type="text" id="perfil-nome" name="nome" value="{{ aluno['nome'] }}" autocomplete="name"
+                            maxlength="120" required>
                     </div>
                     <div class="campo">
                         <label for="perfil-idade">Sua idade</label>
-                        <input type="number" id="perfil-idade" name="idade" value="{{ aluno['idade'] }}" min="1" max="120" inputmode="numeric" required>
+                        <input type="number" id="perfil-idade" name="idade" value="{{ aluno['idade'] }}" min="1"
+                            max="120" inputmode="numeric" required>
                     </div>
                     <div class="campo">
                         <label for="perfil-universidade">Onde pretende estudar? Opcional</label>
-                        <input type="text" id="perfil-universidade" name="universidade" value="{{ aluno['universidade'] or '' }}" placeholder="Onde pretende estudar? (opcional)" maxlength="200">
+                        <input type="text" id="perfil-universidade" name="universidade"
+                            value="{{ aluno['universidade'] or '' }}" placeholder="Onde pretende estudar? (opcional)"
+                            maxlength="200">
                     </div>
                     <div class="campo">
                         <label for="perfil-aspiracao">Qual é a sua maior aspiração hoje?</label>
-                        <input type="text" id="perfil-aspiracao" name="aspiracao" value="{{ aluno['aspiracao'] }}" maxlength="300" required>
+                        <input type="text" id="perfil-aspiracao" name="aspiracao" value="{{ aluno['aspiracao'] }}"
+                            maxlength="300" required>
                     </div>
                     <button type="submit" class="btn-principal">
                         Salvar alterações
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21h14a2 2 0 0 0 2-2V7l-4-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v4h8"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 21h14a2 2 0 0 0 2-2V7l-4-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z" />
+                            <path d="M17 21v-8H7v8" />
+                            <path d="M7 3v4h8" />
+                        </svg>
                     </button>
                 </form>
             </div>
@@ -658,39 +1689,57 @@
             <div class="qs-wrap">
                 <span class="eyebrow">Quem somos</span>
                 <h2>Ouvir o que elas sonham para abrir caminhos na ciência.</h2>
-                <p class="qs-lead">O WoHelp é uma plataforma que identifica as aspirações de estudantes do 2º ano do IFBA – Campus Simões Filho sobre as áreas em que pretendem atuar, com atenção especial às que têm como perspectiva entrar no campo científico.</p>
+                <p class="qs-lead">O WoHelp é uma plataforma que identifica as aspirações de estudantes do 2º ano do
+                    IFBA – Campus Simões Filho sobre as áreas em que pretendem atuar, com atenção especial às que têm
+                    como perspectiva entrar no campo científico.</p>
 
                 <div class="qs-grid">
                     <article class="qs-card">
                         <span class="qs-tag">Nossa proposta</span>
                         <h3>Reunir dados para orientar a formação</h3>
-                        <p>O projeto reúne, em uma única plataforma, informações sobre as pretensões acadêmicas das estudantes. Com esse retrato, é possível direcionar atividades formativas e afins no IFBA – Simões Filho de acordo com o que elas querem seguir.</p>
-                        <p>O cadastro é o primeiro passo: nele, a estudante conta como quer ser chamada, onde pretende estudar e qual é a sua maior aspiração hoje.</p>
+                        <p>O projeto reúne, em uma única plataforma, informações sobre as pretensões acadêmicas das
+                            estudantes. Com esse retrato, é possível direcionar atividades formativas e afins no IFBA –
+                            Simões Filho de acordo com o que elas querem seguir.</p>
+                        <p>O cadastro é o primeiro passo: nele, a estudante conta como quer ser chamada, onde pretende
+                            estudar e qual é a sua maior aspiração hoje.</p>
                     </article>
                     <article class="qs-card">
                         <span class="qs-tag">O problema</span>
                         <h3>Um desafio que começa cedo</h3>
-                        <p>Estereótipos de gênero atravessam a infância e a escola e moldam o que meninas imaginam para o futuro, antes mesmo da escolha de uma graduação. Depois, as mulheres seguem menos representadas em áreas STEM e em posições de prestígio e decisão na ciência.</p>
+                        <p>Estereótipos de gênero atravessam a infância e a escola e moldam o que meninas imaginam para
+                            o futuro, antes mesmo da escolha de uma graduação. Depois, as mulheres seguem menos
+                            representadas em áreas STEM e em posições de prestígio e decisão na ciência.</p>
                     </article>
                     <article class="qs-card">
                         <span class="qs-tag">Quem queremos apoiar</span>
                         <h3>Estudantes do 2º ano em Simões Filho</h3>
-                        <p>Nosso foco são as estudantes que pensam em seguir no campo científico. O campus tem oferta exclusiva de cursos industriais e, segundo pesquisa com egressos do IFBA, as mulheres são minoria entre quem conseguiu estágio remunerado em empresas.</p>
+                        <p>Nosso foco são as estudantes que pensam em seguir no campo científico. O campus tem oferta
+                            exclusiva de cursos industriais e, segundo pesquisa com egressos do IFBA, as mulheres são
+                            minoria entre quem conseguiu estágio remunerado em empresas.</p>
                     </article>
                     <article class="qs-card">
                         <span class="qs-tag">Tecnologia e STEM</span>
                         <h3>Tecnologia a serviço da igualdade</h3>
-                        <p>O WoHelp está alinhado ao ODS 5. Atende à meta 5.b, que trata do uso de tecnologias de informação e comunicação para o empoderamento das mulheres, e à meta 5.5, com foco na dimensão assistiva de garantir a participação plena das mulheres em espaços de decisão, incluindo o campo científico.</p>
-                        <p>O projeto participa da Semana Nacional de Ciência e Tecnologia 2026, com o tema Ciência Delas.</p>
+                        <p>O WoHelp está alinhado ao ODS 5. Atende à meta 5.b, que trata do uso de tecnologias de
+                            informação e comunicação para o empoderamento das mulheres, e à meta 5.5, com foco na
+                            dimensão assistiva de garantir a participação plena das mulheres em espaços de decisão,
+                            incluindo o campo científico.</p>
+                        <p>O projeto participa da Semana Nacional de Ciência e Tecnologia 2026, com o tema Ciência
+                            Delas.</p>
                     </article>
                 </div>
 
                 <div class="qs-dados">
-                    <div class="qs-dado"><strong>14% vs. 26%</strong><span>das meninas e dos meninos de 15 anos, respectivamente, esperavam trabalhar em ocupações STEM (PISA 2022, América Latina e Caribe).</span></div>
-                    <div class="qs-dado"><strong>23,84% vs. 46,02%</strong><span>das mulheres e dos homens egressos do ensino técnico industrial do IFBA já haviam atuado na área do curso.</span></div>
-                    <div class="qs-dado"><strong>35,6%</strong><span>das bolsas de produtividade em pesquisa do CNPq analisadas em estudo de 2021 eram de mulheres.</span></div>
+                    <div class="qs-dado"><strong>14% vs. 26%</strong><span>das meninas e dos meninos de 15 anos,
+                            respectivamente, esperavam trabalhar em ocupações STEM (PISA 2022, América Latina e
+                            Caribe).</span></div>
+                    <div class="qs-dado"><strong>23,84% vs. 46,02%</strong><span>das mulheres e dos homens egressos do
+                            ensino técnico industrial do IFBA já haviam atuado na área do curso.</span></div>
+                    <div class="qs-dado"><strong>35,6%</strong><span>das bolsas de produtividade em pesquisa do CNPq
+                            analisadas em estudo de 2021 eram de mulheres.</span></div>
                 </div>
-                <p class="qs-fonte">Fontes: OCDE (2022; 2025); Costa (2025), 22º Congresso Brasileiro de Sociologia; estudo publicado na revista Saúde em Debate (2021).</p>
+                <p class="qs-fonte">Fontes: OCDE (2022; 2025); Costa (2025), 22º Congresso Brasileiro de Sociologia;
+                    estudo publicado na revista Saúde em Debate (2021).</p>
             </div>
         </div>
 
@@ -699,91 +1748,298 @@
             <div class="hist-wrap">
                 <span class="eyebrow">O caminho até aqui</span>
                 <h2>Nossa História</h2>
-                <p class="hist-lead">O WoHelp se apoia em uma cadeia de desigualdades que as pesquisas descrevem ao longo da trajetória das mulheres na ciência. Entender essa cadeia ajuda a explicar por que o projeto começa pelas estudantes do 2º ano.</p>
+                <p class="hist-lead">O WoHelp se apoia em uma cadeia de desigualdades que as pesquisas descrevem ao
+                    longo da trajetória das mulheres na ciência. Entender essa cadeia ajuda a explicar por que o projeto
+                    começa pelas estudantes do 2º ano.</p>
 
                 <div class="hist-linha">
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 1 · Na infância</span>
                         <h3>Estereótipos desde cedo</h3>
-                        <p>A OCDE afirma que crianças e jovens são afetados por estereótipos de gênero desde idades precoces, e que pais, professores, escola e colegas influenciam como essas ideias são internalizadas. Mesmo sem serem ditas diretamente, expectativas e incentivos diferentes podem moldar os interesses das estudantes.</p>
+                        <p>A OCDE afirma que crianças e jovens são afetados por estereótipos de gênero desde idades
+                            precoces, e que pais, professores, escola e colegas influenciam como essas ideias são
+                            internalizadas. Mesmo sem serem ditas diretamente, expectativas e incentivos diferentes
+                            podem moldar os interesses das estudantes.</p>
                     </div>
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 2 · Na escolha da área</span>
                         <h3>Menos mulheres em STEM</h3>
-                        <p>Na América Latina e no Caribe, as mulheres são cerca de 40% dos formados em cursos STEM, mas, no Brasil, apenas cerca de 15% dos graduados em TIC. Com poucas mulheres nessas áreas, faltam referências: OCDE e UNESCO apontam modelos femininos e programas de mentoria como estratégias eficazes contra vieses de gênero.</p>
+                        <p>Na América Latina e no Caribe, as mulheres são cerca de 40% dos formados em cursos STEM, mas,
+                            no Brasil, apenas cerca de 15% dos graduados em TIC. Com poucas mulheres nessas áreas,
+                            faltam referências: OCDE e UNESCO apontam modelos femininos e programas de mentoria como
+                            estratégias eficazes contra vieses de gênero.</p>
                     </div>
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 3 · Na formação técnica</span>
                         <h3>O caminho no IFBA</h3>
-                        <p>Pesquisa com egressos de dois campi do IFBA, Salvador e Simões Filho, mostra que as mulheres eram maioria entre as 338 participantes do questionário, mas minoria entre quem realizou estágio remunerado em empresas. Entre quem chegou ao último ano do curso, 23,84% das mulheres já haviam atuado na área, contra 46,02% dos homens. As trajetórias podem começar com oportunidades diferentes.</p>
+                        <p>Pesquisa com egressos de dois campi do IFBA, Salvador e Simões Filho, mostra que as mulheres
+                            eram maioria entre as 338 participantes do questionário, mas minoria entre quem realizou
+                            estágio remunerado em empresas. Entre quem chegou ao último ano do curso, 23,84% das
+                            mulheres já haviam atuado na área, contra 46,02% dos homens. As trajetórias podem começar
+                            com oportunidades diferentes.</p>
                     </div>
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 4 · Na carreira científica</span>
                         <h3>Progressão e reconhecimento</h3>
-                        <p>Um estudo com docentes da pós-graduação brasileira (2013 a 2016) não encontrou diferença de produção científica entre homens e mulheres, mas identificou diferenças favoráveis aos homens nas bolsas de produtividade em pesquisa. Em 2024, segundo o IBGE, entre os profissionais das ciências e intelectuais, o rendimento médio das mulheres correspondia a cerca de 64,9% do dos homens. É uma diferença média, que não prova sozinha discriminação salarial direta.</p>
+                        <p>Um estudo com docentes da pós-graduação brasileira (2013 a 2016) não encontrou diferença de
+                            produção científica entre homens e mulheres, mas identificou diferenças favoráveis aos
+                            homens nas bolsas de produtividade em pesquisa. Em 2024, segundo o IBGE, entre os
+                            profissionais das ciências e intelectuais, o rendimento médio das mulheres correspondia a
+                            cerca de 64,9% do dos homens. É uma diferença média, que não prova sozinha discriminação
+                            salarial direta.</p>
                     </div>
                     <div class="hist-item atual">
                         <span class="hist-etapa">Etapa 5 · Agora</span>
                         <h3>O WoHelp</h3>
-                        <p>É nesse ponto que o WoHelp entra. A plataforma começa pelas estudantes do 2º ano do IFBA – Campus Simões Filho, identificando as áreas em que querem atuar e reunindo esses dados para orientar atividades formativas na instituição.</p>
-                        <p>Hoje, a plataforma já permite o cadastro e a atualização do perfil, e o chat de apoio segue em construção. O projeto participa da Semana Nacional de Ciência e Tecnologia 2026, com o tema Ciência Delas.</p>
+                        <p>É nesse ponto que o WoHelp entra. A plataforma começa pelas estudantes do 2º ano do IFBA –
+                            Campus Simões Filho, identificando as áreas em que querem atuar e reunindo esses dados para
+                            orientar atividades formativas na instituição.</p>
+                        <p>Hoje, a plataforma já permite o cadastro e a atualização do perfil, e o chat de apoio segue
+                            em construção. O projeto participa da Semana Nacional de Ciência e Tecnologia 2026, com o
+                            tema Ciência Delas.</p>
                     </div>
                 </div>
-                <p class="hist-nota"><span class="tag-em-breve">O registro detalhado das etapas do projeto será acrescentado aqui 🌱</span></p>
+                <p class="hist-nota"><span class="tag-em-breve">O registro detalhado das etapas do projeto será
+                        acrescentado aqui 🌱</span></p>
             </div>
         </div>
 
         <!-- ABA 4: CHAT -->
         <div id="chat" class="aba-conteudo">
             <span class="eyebrow">Converse com a rede</span>
-            <h2>Chat de Apoio</h2>
-            <p>Em breve você vai poder conversar com a nossa rede por aqui.</p>
-            <p style="text-align:center;"><span class="tag-em-breve">Em construção 🌱</span></p>
+
+            <h2>Chat Global</h2>
+
+            <p class="chat-subtitulo">
+                Converse com outras pessoas da comunidade WoHelp.
+            </p>
+
+            <div id="chat-mensagens" class="chat-mensagens">
+                <p class="chat-carregando">
+                    Carregando mensagens...
+                </p>
+            </div>
+
+            {% if nome_usuario %}
+
+            <form id="form-chat" class="chat-form">
+                <input type="text" id="chat-input" maxlength="1000" placeholder="Escreva uma mensagem..."
+                    autocomplete="off" required>
+
+                <button type="submit" class="btn-principal" id="chat-enviar">
+                    Enviar
+                </button>
+            </form>
+
+            {% else %}
+
+            <p class="chat-login-aviso">
+                Cadastre-se para participar do chat.
+            </p>
+
+            {% endif %}
         </div>
-    </main>
 
-    <!-- Script para as abas -->
-    <script>
-        function moverIndicador(botao) {
-            const indicador = document.getElementById('nav-indicador');
-            const menu = document.getElementById('menu-botoes');
-            const menuRect = menu.getBoundingClientRect();
-            const btnRect = botao.getBoundingClientRect();
-            indicador.style.width = btnRect.width + 'px';
-            indicador.style.left = (btnRect.left - menuRect.left) + 'px';
-        }
+        <!-- Script para as abas -->
+        <script>
+            function moverIndicador(botao) {
+                const indicador = document.getElementById('nav-indicador');
+                const menu = document.getElementById('menu-botoes');
+                if (!indicador || !menu || !botao) return;
 
-        function mudarAba(idAba, botao) {
-            const proximaAba = document.getElementById(idAba);
-            const abaAtual = document.querySelector('.aba-conteudo.ativa');
-            if (proximaAba === abaAtual) return;
-
-            document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('ativo'));
-            document.querySelectorAll('.btn-nav').forEach(b => b.removeAttribute('aria-current'));
-            botao.classList.add('ativo');
-            botao.setAttribute('aria-current', 'page');
-            moverIndicador(botao);
-
-            if (abaAtual) {
-                abaAtual.classList.remove('ativa');
-                abaAtual.classList.add('saindo');
-                window.setTimeout(() => abaAtual.classList.remove('saindo'), 360);
+                const menuRect = menu.getBoundingClientRect();
+                const btnRect = botao.getBoundingClientRect();
+                indicador.style.width = btnRect.width + 'px';
+                indicador.style.left = (btnRect.left - menuRect.left) + 'px';
             }
-            proximaAba.classList.add('ativa');
-        }
 
-        window.addEventListener('load', () => moverIndicador(document.getElementById('btn-cadastro')));
-        window.addEventListener('resize', () => moverIndicador(document.querySelector('.btn-nav.ativo')));
+            function mudarAba(idAba, botao) {
+                const proximaAba = document.getElementById(idAba);
+                const abaAtual = document.querySelector('.aba-conteudo.ativa');
+                if (!proximaAba || proximaAba === abaAtual) return;
 
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', () => {
-                const button = form.querySelector('button[type="submit"]');
-                if (!button) return;
-                button.disabled = true;
-                button.setAttribute('aria-busy', 'true');
-                button.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Salvando...</span>';
+                document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('ativo'));
+                document.querySelectorAll('.btn-nav').forEach(b => b.removeAttribute('aria-current'));
+                botao.classList.add('ativo');
+                botao.setAttribute('aria-current', 'page');
+                moverIndicador(botao);
+
+                if (abaAtual) {
+                    abaAtual.classList.remove('ativa');
+                    abaAtual.classList.add('saindo');
+                    window.setTimeout(() => abaAtual.classList.remove('saindo'), 360);
+                }
+                proximaAba.classList.add('ativa');
+            }
+
+            window.addEventListener('load', () => {
+                const botaoCadastro = document.getElementById('btn-cadastro');
+                if (botaoCadastro) moverIndicador(botaoCadastro);
             });
-        });
-    </script>
+
+            window.addEventListener('resize', () => {
+                const botaoAtivo = document.querySelector('.btn-nav.ativo');
+                if (botaoAtivo) moverIndicador(botaoAtivo);
+            });
+
+            document.querySelectorAll('form').forEach(form => {
+                if (form.id === 'form-chat') return;
+
+                form.addEventListener('submit', () => {
+                    const button = form.querySelector('button[type="submit"]');
+                    if (!button) return;
+                    button.disabled = true;
+                    button.setAttribute('aria-busy', 'true');
+                    button.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Salvando...</span>';
+                });
+            });
+
+            const chatMensagens = document.getElementById('chat-mensagens');
+            const formChat = document.getElementById('form-chat');
+            const chatInput = document.getElementById('chat-input');
+
+            let ultimaMensagemId = 0;
+            let carregandoChat = false;
+
+            function formatarHorario(data) {
+                if (!data) return '';
+
+                const dataObj = new Date(data);
+                if (Number.isNaN(dataObj.getTime())) {
+                    return '';
+                }
+
+                return dataObj.toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
+            function escaparHTML(texto) {
+                const div = document.createElement('div');
+                div.textContent = texto;
+                return div.innerHTML;
+            }
+
+            function renderizarMensagens(mensagens) {
+                if (!chatMensagens) return;
+
+                chatMensagens.innerHTML = '';
+
+                if (!mensagens.length) {
+                    const vazio = document.createElement('p');
+                    vazio.className = 'chat-vazio';
+                    vazio.textContent = 'Ainda não há mensagens. Seja a primeira pessoa a conversar!';
+                    chatMensagens.appendChild(vazio);
+                    return;
+                }
+
+                const meuAlunoId = document.body.dataset.alunoId;
+
+                mensagens.forEach(mensagem => {
+                    const elemento = document.createElement('div');
+                    elemento.className = 'chat-mensagem';
+
+                    if (meuAlunoId && String(mensagem.aluno_id) === String(meuAlunoId)) {
+                        elemento.classList.add('propria');
+                    }
+
+                    elemento.innerHTML = `
+                        <span class="chat-nome">${escaparHTML(mensagem.nome)}</span>
+                        <span class="chat-texto">${escaparHTML(mensagem.mensagem)}</span>
+                        <span class="chat-hora">${formatarHorario(mensagem.criado_em)}</span>
+                    `;
+
+                    chatMensagens.appendChild(elemento);
+                });
+
+                const ultimaMensagem = mensagens[mensagens.length - 1];
+                if (ultimaMensagem) {
+                    ultimaMensagemId = ultimaMensagem.id;
+                }
+
+                chatMensagens.scrollTop = chatMensagens.scrollHeight;
+            }
+
+            async function carregarMensagens() {
+                if (!chatMensagens || carregandoChat) {
+                    return;
+                }
+
+                carregandoChat = true;
+
+                try {
+                    const resposta = await fetch('/api/chat', {
+                        method: 'GET',
+                        credentials: 'same-origin'
+                    });
+
+                    if (!resposta.ok) {
+                        throw new Error('Não foi possível carregar o chat.');
+                    }
+
+                    const dados = await resposta.json();
+                    renderizarMensagens(dados.mensagens || []);
+                } catch (erro) {
+                    console.error('Erro ao carregar o chat:', erro);
+
+                    if (chatMensagens.children.length === 0) {
+                        chatMensagens.innerHTML = '<p class="chat-vazio">Não foi possível carregar o chat.</p>';
+                    }
+                } finally {
+                    carregandoChat = false;
+                }
+            }
+
+            if (formChat && chatInput) {
+                formChat.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+
+                    const mensagem = chatInput.value.trim();
+                    if (!mensagem) {
+                        return;
+                    }
+
+                    const botao = document.getElementById('chat-enviar');
+                    if (botao) {
+                        botao.disabled = true;
+                    }
+                    chatInput.disabled = true;
+
+                    try {
+                        const resposta = await fetch('/api/chat', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ mensagem: mensagem })
+                        });
+
+                        const dados = await resposta.json();
+                        if (!resposta.ok) {
+                            throw new Error(dados.error || 'Não foi possível enviar a mensagem.');
+                        }
+
+                        chatInput.value = '';
+                        await carregarMensagens();
+                        chatInput.focus();
+                    } catch (erro) {
+                        console.error('Erro ao enviar mensagem:', erro);
+                        alert(erro.message);
+                    } finally {
+                        if (botao) {
+                            botao.disabled = false;
+                        }
+                        chatInput.disabled = false;
+                    }
+                });
+            }
+
+            carregarMensagens();
+            setInterval(carregarMensagens, 3000);
+        </script>
+    </main>
 </body>
+
 </html>
