@@ -57,7 +57,7 @@ def create_app(test_config=None):
 
         with engine.begin() as conn:
 
-            # Tabela dos usuários
+            # Tabela dos usuários original
             conn.execute(text(f"""
                 CREATE TABLE IF NOT EXISTS alunos (
                     id {id_column},
@@ -78,6 +78,23 @@ def create_app(test_config=None):
                     FOREIGN KEY (aluno_id) REFERENCES alunos(id)
                 )
             """))
+
+            # Migração: Adicionar novos campos da pesquisa na tabela alunos existente
+            novos_campos = [
+                "curso TEXT",
+                "turma TEXT",
+                "interesse_area_tecnica TEXT",
+                "motivo_desinteresse TEXT",
+                "continuar_estudos TEXT",
+                "violencia_curso TEXT",
+                "violencia_futura TEXT"
+            ]
+
+            for campo in novos_campos:
+                try:
+                    conn.execute(text(f"ALTER TABLE alunos ADD COLUMN {campo}"))
+                except SQLAlchemyError:
+                    pass  # Coluna já existe, ignora e continua
 
     with app.app_context():
         initialize_database()
@@ -100,9 +117,7 @@ def create_app(test_config=None):
         try:
             with engine.connect() as conn:
                 conn.execute(text("SELECT 1"))
-
             return jsonify(status="ok")
-
         except SQLAlchemyError:
             return jsonify(status="unavailable"), 503
 
@@ -145,21 +160,16 @@ def create_app(test_config=None):
         ):
             if field in data:
                 value = data[field]
-
                 if value is None and field == "universidade":
                     value = ""
-
                 if not isinstance(value, str):
                     return None, f"{field} deve ser texto."
-
                 value = value.strip()
-
                 if field != "universidade" and not value:
                     return None, f"{field} é obrigatório."
-
                 if len(value) > limit:
                     return None, f"{field} deve ter no máximo {limit} caracteres."
-
+                
                 if field in ("nome", "universidade"):
                     cleaned[field] = value.title()
                 else:
@@ -167,20 +177,14 @@ def create_app(test_config=None):
 
         if "idade" in data:
             age = data["idade"]
-
             if isinstance(age, bool) or not (
-                isinstance(age, int)
-                or (isinstance(age, str) and age.isdigit())
+                isinstance(age, int) or (isinstance(age, str) and age.isdigit())
             ):
                 return None, "idade deve ser um número inteiro."
-
             age = int(age)
-
             if age < 1 or age > 120:
                 return None, "idade deve estar entre 1 e 120."
-
             cleaned["idade"] = age
-
         elif not partial:
             return None, "idade é obrigatório."
 
@@ -191,16 +195,10 @@ def create_app(test_config=None):
             return conn.execute(
                 text("""
                     INSERT INTO alunos (
-                        nome,
-                        idade,
-                        aspiracao,
-                        universidade
+                        nome, idade, aspiracao, universidade
                     )
                     VALUES (
-                        :nome,
-                        :idade,
-                        :aspiracao,
-                        :universidade
+                        :nome, :idade, :aspiracao, :universidade
                     )
                     RETURNING id
                 """),
@@ -219,12 +217,12 @@ def create_app(test_config=None):
             aluno=student,
             nome_usuario=student["nome"] if student else None,
             abrir_perfil=bool(student),
+            pesquisa_sucesso=request.args.get("pesquisa_sucesso")
         )
 
     @app.post("/cadastrar")
     def cadastrar():
         raw = request.form.to_dict()
-
         data, error = validate_data(raw)
 
         if error:
@@ -237,15 +235,12 @@ def create_app(test_config=None):
             ), 400
 
         data.setdefault("universidade", "")
-
         session["aluno_id"] = insert_student(data)
-
         return redirect(url_for("perfil"))
 
     @app.get("/perfil")
     def perfil():
         student = get_student(session.get("aluno_id"))
-
         if not student:
             session.pop("aluno_id", None)
             return redirect(url_for("home"))
@@ -260,7 +255,6 @@ def create_app(test_config=None):
     @app.post("/perfil/atualizar")
     def atualizar_perfil():
         student_id = session.get("aluno_id")
-
         if not student_id:
             return redirect(url_for("home"))
 
@@ -268,7 +262,6 @@ def create_app(test_config=None):
 
         if error:
             student = get_student(student_id)
-
             return render_template(
                 "index.html",
                 aluno=student,
@@ -298,89 +291,64 @@ def create_app(test_config=None):
 
         return redirect(url_for("perfil", atualizado="1"))
 
-    @app.route("/api/alunos", methods=["POST", "OPTIONS"])
-    def api_create_student():
-        if request.method == "OPTIONS":
-            return "", 204
+    # ============================================================
+    # ROTA DA PESQUISA
+    # ============================================================
 
-        data, error = validate_data(
-            request.get_json(silent=True)
-        )
+    @app.post("/pesquisa")
+    def salvar_pesquisa():
+        data = request.form.to_dict()
 
-        if error:
-            return jsonify(error=error), 400
+        idade = data.get("idade", 0)
+        curso = data.get("curso", "")
+        turma = data.get("turma", "")
+        interesse = data.get("interesse_area_tecnica", "")
+        motivo = data.get("motivo_desinteresse", "")
+        continuar = data.get("continuar_estudos", "")
+        violencia_curso = data.get("violencia_curso", "")
+        violencia_futura = data.get("violencia_futura", "")
 
-        data.setdefault("universidade", "")
+        try:
+            idade = int(idade)
+        except (TypeError, ValueError):
+            idade = 0
 
-        student_id = insert_student(data)
-
-        session["aluno_id"] = student_id
-
-        return jsonify(
-            aluno=get_student(student_id)
-        ), 201
-
-    @app.route("/api/perfil", methods=["GET", "PATCH", "OPTIONS"])
-    def api_profile():
-        if request.method == "OPTIONS":
-            return "", 204
-
-        student_id = session.get("aluno_id")
-
-        student = get_student(student_id)
-
-        if not student:
-            session.pop("aluno_id", None)
-
-            return jsonify(
-                error="Perfil não encontrado."
-            ), 401
-
-        if request.method == "GET":
-            return jsonify(
-                aluno=student
-            )
-
-        data, error = validate_data(
-            request.get_json(silent=True)
-        )
-
-        if error:
-            return jsonify(error=error), 400
-
-        data.setdefault("universidade", "")
-
+        # Grava os dados anonimamente na tabela existente (nome é estático e preenche aspiracao em branco)
         with engine.begin() as conn:
             conn.execute(
                 text("""
-                    UPDATE alunos
-                    SET
-                        nome = :nome,
-                        idade = :idade,
-                        universidade = :universidade,
-                        aspiracao = :aspiracao
-                    WHERE id = :id
+                    INSERT INTO alunos (
+                        nome, idade, curso, turma,
+                        interesse_area_tecnica, motivo_desinteresse,
+                        continuar_estudos, violencia_curso, violencia_futura,
+                        aspiracao, universidade
+                    ) VALUES (
+                        'Anônimo(a) (Pesquisa)', :idade, :curso, :turma,
+                        :interesse, :motivo, :continuar,
+                        :violencia_curso, :violencia_futura,
+                        '', ''
+                    )
                 """),
                 {
-                    **data,
-                    "id": student_id,
-                },
+                    "idade": idade,
+                    "curso": curso,
+                    "turma": turma,
+                    "interesse": interesse,
+                    "motivo": motivo,
+                    "continuar": continuar,
+                    "violencia_curso": violencia_curso,
+                    "violencia_futura": violencia_futura
+                }
             )
 
-        return jsonify(
-            aluno=get_student(student_id)
-        )
+        return redirect(url_for("home", pesquisa_sucesso="1"))
 
     # ============================================================
-    # CHAT GLOBAL
+    # CHAT GLOBAL (MANTIDO INTACTO)
     # ============================================================
 
     @app.get("/api/chat")
     def api_chat_list():
-        """
-        Retorna todas as mensagens do chat global.
-        """
-
         with engine.connect() as conn:
             rows = conn.execute(
                 text("""
@@ -397,79 +365,41 @@ def create_app(test_config=None):
                 """)
             ).mappings().all()
 
-        return jsonify(
-            mensagens=[
-                dict(row)
-                for row in rows
-            ]
-        )
+        return jsonify(mensagens=[dict(row) for row in rows])
 
     @app.post("/api/chat")
     def api_chat_create():
-        """
-        Envia uma mensagem para o chat global.
-        """
-
         aluno_id = session.get("aluno_id")
-
-        # Só usuários cadastrados podem enviar mensagens.
         if not aluno_id:
-            return jsonify(
-                error="Você precisa estar cadastrado para participar do chat."
-            ), 401
+            return jsonify(error="Você precisa estar cadastrado para participar do chat."), 401
 
         student = get_student(aluno_id)
-
         if not student:
             session.pop("aluno_id", None)
-
-            return jsonify(
-                error="Perfil não encontrado."
-            ), 401
+            return jsonify(error="Perfil não encontrado."), 401
 
         data = request.get_json(silent=True)
-
         if not isinstance(data, dict):
-            return jsonify(
-                error="O corpo deve ser um objeto JSON."
-            ), 400
+            return jsonify(error="O corpo deve ser um objeto JSON."), 400
 
         mensagem = data.get("mensagem")
-
         if not isinstance(mensagem, str):
-            return jsonify(
-                error="mensagem deve ser texto."
-            ), 400
+            return jsonify(error="mensagem deve ser texto."), 400
 
         mensagem = mensagem.strip()
-
         if not mensagem:
-            return jsonify(
-                error="A mensagem não pode estar vazia."
-            ), 400
-
+            return jsonify(error="A mensagem não pode estar vazia."), 400
         if len(mensagem) > 1000:
-            return jsonify(
-                error="A mensagem deve ter no máximo 1000 caracteres."
-            ), 400
+            return jsonify(error="A mensagem deve ter no máximo 1000 caracteres."), 400
 
         with engine.begin() as conn:
             row = conn.execute(
                 text("""
-                    INSERT INTO mensagens (
-                        aluno_id,
-                        mensagem
-                    )
-                    VALUES (
-                        :aluno_id,
-                        :mensagem
-                    )
+                    INSERT INTO mensagens (aluno_id, mensagem)
+                    VALUES (:aluno_id, :mensagem)
                     RETURNING id, criado_em
                 """),
-                {
-                    "aluno_id": aluno_id,
-                    "mensagem": mensagem,
-                },
+                {"aluno_id": aluno_id, "mensagem": mensagem},
             ).mappings().one()
 
         return jsonify(
@@ -482,18 +412,9 @@ def create_app(test_config=None):
             }
         ), 201
 
-    # ============================================================
-
     return app
-
 
 app = create_app()
 
-
 if __name__ == "__main__":
-    app.run(
-        debug=os.environ.get(
-            "FLASK_DEBUG",
-            "false"
-        ).lower() == "true"
-    )
+    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")

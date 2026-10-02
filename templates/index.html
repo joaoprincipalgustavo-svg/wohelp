@@ -1506,8 +1506,9 @@
                 aria-controls="quem-somos">Quem Somos</button>
             <button type="button" onclick="mudarAba('historia', this)" class="btn-nav" id="btn-historia"
                 aria-controls="historia">História</button>
-            <button type="button" onclick="mudarAba('chat', this)" class="btn-nav" id="btn-chat"
-                aria-controls="chat">Chat</button>
+            <button type="button" onclick="mudarAba('chat', this)" class="btn-nav" id="btn-chat" aria-controls="chat">Chat</button>
+            <!-- BOTÃO NOVO DA PESQUISA -->
+            <button type="button" onclick="mudarAba('pesquisa', this)" class="btn-nav" id="btn-pesquisa" aria-controls="pesquisa">Pesquisa</button>
             <div id="nav-indicador"></div>
         </div>
         <!-- Aparece APENAS se a usuária já estiver cadastrada/logada -->
@@ -1840,6 +1841,84 @@
             {% endif %}
         </div>
 
+        <!-- ABA: PESQUISA (DUAS ETAPAS) -->
+        <div id="pesquisa" class="aba-conteudo">
+            <div class="intro-layout" style="grid-template-columns: 1fr; max-width: 660px; margin: 0 auto; transform: none;">
+                <div class="login-painel" style="max-width: 100%;">
+                    <div class="intro-copy" style="text-align: center;">
+                        <span class="eyebrow">Participe</span>
+                        <h2>Pesquisa WoHelp</h2>
+                        <p class="subtitulo" style="margin-inline: auto;">Sua voz ajuda a mapear e transformar a jornada de outras meninas na área técnica.</p>
+                    </div>
+
+                    {% if pesquisa_sucesso %}
+                    <div class="alerta" role="status">Pesquisa concluída! Muito obrigada por compartilhar sua visão com a gente.</div>
+                    {% else %}
+                    <form action="/pesquisa" method="POST" class="login-form" style="grid-template-columns: 1fr;">
+                        
+                        <!-- ETAPA 1 -->
+                        <div id="pesquisa-aba-1" style="display: grid; grid-template-columns: 1fr; gap: 14px;">
+                            <div class="campo">
+                                <label for="pesquisa-nome">Como podemos te chamar?</label>
+                                <!-- Atenção: o input de nome NÃO possui o atributo 'name', logo o navegador descarta e NUNCA o envia ao backend -->
+                                <input type="text" id="pesquisa-nome" placeholder="Seu nome (não será salvo)" required>
+                            </div>
+                            <div class="campo">
+                                <label for="pesquisa-idade">Idade</label>
+                                <input type="number" id="pesquisa-idade" name="idade" placeholder="Qual sua idade?" min="1" max="120" required>
+                            </div>
+                            <div class="campo">
+                                <label for="pesquisa-curso">Curso</label>
+                                <input type="text" id="pesquisa-curso" name="curso" placeholder="Qual é o seu curso?" required>
+                            </div>
+                            <div class="campo">
+                                <label for="pesquisa-turma">Turma</label>
+                                <input type="text" id="pesquisa-turma" name="turma" placeholder="Qual é a sua turma?" required>
+                            </div>
+
+                            <button type="button" class="btn-principal" onclick="avancarPesquisa()">
+                                Continuar
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+
+                        <!-- ETAPA 2 -->
+                        <div id="pesquisa-aba-2" style="display: none; grid-template-columns: 1fr; gap: 16px;">
+                            <div class="campo">
+                                <label style="display: block; margin-bottom: 8px; white-space: normal;">1. Você entrou no curso com interesse em seguir na área técnica?</label>
+                                <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 14px;">
+                                    <label style="display: flex; align-items: center; gap: 6px;"><input type="radio" name="interesse_area_tecnica" value="Sim" onclick="toggleMotivo(false)" style="width: auto; min-height: auto;" required> Sim</label>
+                                    <label style="display: flex; align-items: center; gap: 6px;"><input type="radio" name="interesse_area_tecnica" value="Não" onclick="toggleMotivo(true)" style="width: auto; min-height: auto;"> Não</label>
+                                </div>
+                                <div id="container-motivo" style="display: none;">
+                                    <label for="motivo_desinteresse" style="margin-top: 8px;">Qual o motivo?</label>
+                                    <input type="text" id="motivo_desinteresse" name="motivo_desinteresse" placeholder="Nos conte o motivo">
+                                </div>
+                            </div>
+                            <div class="campo">
+                                <label for="continuar_estudos" style="display: block; margin-bottom: 8px; white-space: normal;">2. Você deseja continuar os estudos depois de concluir o ensino médio integrado?</label>
+                                <input type="text" id="continuar_estudos" name="continuar_estudos" placeholder="Sua resposta" required>
+                            </div>
+                            <div class="campo">
+                                <label for="violencia_curso" style="display: block; margin-bottom: 8px; white-space: normal;">3. Você sofreu algum tipo de violência no curso, por ser menina, que te desmotivou para seguir na área técnica?</label>
+                                <input type="text" id="violencia_curso" name="violencia_curso" placeholder="Sua resposta" required>
+                            </div>
+                            <div class="campo">
+                                <label for="violencia_futura" style="display: block; margin-bottom: 8px; white-space: normal;">4. Você imagina sofrer algum tipo de violência em curso depois do integrado, na área técnica, que te desmotive, enquanto mulher, a cursar um curso nessas áreas?</label>
+                                <input type="text" id="violencia_futura" name="violencia_futura" placeholder="Sua resposta" required>
+                            </div>
+
+                            <div style="display: flex; gap: 12px;">
+                                <button type="button" class="btn-principal" style="background: #eef1f6; color: #342450; box-shadow: none;" onclick="voltarPesquisa()">Voltar</button>
+                                <button type="submit" class="btn-principal" style="flex: 2;">Enviar Pesquisa</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
         <!-- Script para as abas -->
         <script>
             function moverIndicador(botao) {
@@ -1873,9 +1952,48 @@
             }
 
             window.addEventListener('load', () => {
-                const botaoCadastro = document.getElementById('btn-cadastro');
-                if (botaoCadastro) moverIndicador(botaoCadastro);
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('pesquisa_sucesso')) {
+                    const btnPesquisa = document.getElementById('btn-pesquisa');
+                    if (btnPesquisa) mudarAba('pesquisa', btnPesquisa);
+                } else {
+                    const botaoAtivo = document.querySelector('.btn-nav.ativo');
+                    if (botaoAtivo) moverIndicador(botaoAtivo);
+                }
             });
+
+            // Lógica interna da nova pesquisa (transição das etapas 1 e 2)
+            function avancarPesquisa() {
+                const nome = document.getElementById('pesquisa-nome').value.trim();
+                const idade = document.getElementById('pesquisa-idade').value.trim();
+                const curso = document.getElementById('pesquisa-curso').value.trim();
+                const turma = document.getElementById('pesquisa-turma').value.trim();
+
+                if (!nome || !idade || !curso || !turma) {
+                    alert('Preencha todos os campos para continuar.');
+                    return;
+                }
+                document.getElementById('pesquisa-aba-1').style.display = 'none';
+                document.getElementById('pesquisa-aba-2').style.display = 'grid';
+            }
+
+            function voltarPesquisa() {
+                document.getElementById('pesquisa-aba-2').style.display = 'none';
+                document.getElementById('pesquisa-aba-1').style.display = 'grid';
+            }
+
+            function toggleMotivo(mostrar) {
+                const container = document.getElementById('container-motivo');
+                const input = document.getElementById('motivo_desinteresse');
+                if (mostrar) {
+                    container.style.display = 'block';
+                    input.required = true;
+                } else {
+                    container.style.display = 'none';
+                    input.required = false;
+                    input.value = '';
+                }
+            }
 
             window.addEventListener('resize', () => {
                 const botaoAtivo = document.querySelector('.btn-nav.ativo');
