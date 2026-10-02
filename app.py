@@ -1,4 +1,5 @@
 """WoHelp web app and JSON API."""
+from datetime import timedelta
 import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
@@ -37,6 +38,8 @@ def create_app(test_config=None):
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE=os.environ.get("SESSION_COOKIE_SAMESITE", "Lax"),
         SESSION_COOKIE_SECURE=os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true",
+        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
+        SESSION_REFRESH_EACH_REQUEST=True,
         MAX_CONTENT_LENGTH=16 * 1024,
     )
     if test_config:
@@ -231,6 +234,9 @@ def create_app(test_config=None):
         student = get_student(session.get("aluno_id"))
         if not student:
             session.pop("aluno_id", None)
+        else:
+            # Mantém a sessão válida entre visitas e fechamentos do navegador.
+            session.permanent = True
         return render_template("index.html", aluno=student,
                                nome_usuario=student["nome"] if student else None,
                                abrir_perfil=False, cadastro_dados={}, cadastro_etapa=1)
@@ -251,6 +257,7 @@ def create_app(test_config=None):
                                    abrir_perfil=False, erro_cadastro=error,
                                    cadastro_dados=form_data,
                                    cadastro_etapa=2 if campos_etapa_2.intersection(form_data) else 1), 400
+        session.permanent = True
         session["aluno_id"] = insert_student(data)
         return redirect(url_for("home"))
 

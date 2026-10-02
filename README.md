@@ -42,6 +42,7 @@ Erros de validação retornam `400` com `{ "error": "..." }`; a leitura/edição
 - `CORS_ORIGINS`: origens permitidas, separadas por vírgula, sem barra final, por exemplo `https://meu-frontend.onrender.com`. Deixe vazio se frontend e backend forem servidos pela mesma origem.
 - `SESSION_COOKIE_SECURE`: use `true` em HTTPS. `render.yaml` define esse valor.
 - `SESSION_COOKIE_SAMESITE`: padrão `Lax`. Para frontend em domínio diferente que dependa de cookies, defina `None` e use HTTPS (`SESSION_COOKIE_SECURE=true`).
+- A sessão do perfil dura 30 dias e é renovada enquanto a pessoa usa o site. Assim, fechar e reabrir o navegador não exige preencher o cadastro de novo; mantenha `WOHELP_SECRET_KEY` estável entre reinicializações.
 - `FLASK_DEBUG`: só para desenvolvimento local; padrão desativado.
 
 Não inclua segredos em arquivos versionados. Os campos obrigatórios do perfil são nome, idade e aspiração; universidade é opcional.
