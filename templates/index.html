@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WoHelp - Rede de Apoio</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='brand/wohelp-logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -72,12 +73,13 @@
             letter-spacing: -.3px;
         }
 
-        .marca-marca {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--sand);
-            box-shadow: 0 0 0 5px rgba(220, 168, 94, .15);
+        .marca-logo {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 auto;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #fff;
         }
 
         .menu-botoes {
@@ -473,7 +475,8 @@
             pointer-events: none;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 15px 18px 15px 38px;
             border: 1px solid var(--line);
@@ -491,7 +494,12 @@
             opacity: 1;
         }
 
-        input:focus {
+        select:invalid {
+            color: #9b858e;
+        }
+
+        input:focus,
+        select:focus {
             outline: none;
             border-color: rgba(147, 74, 104, .6);
             background: #fff;
@@ -538,7 +546,8 @@
         }
 
         button:focus-visible,
-        input:focus-visible {
+        input:focus-visible,
+        select:focus-visible {
             outline: 3px solid var(--sand);
             outline-offset: 2px;
         }
@@ -787,11 +796,6 @@
             letter-spacing: -.6px;
         }
 
-        .marca-marca {
-            background: var(--sand);
-            box-shadow: 0 0 0 5px rgba(228, 173, 85, .18);
-        }
-
         .menu-botoes {
             background: #f1eef5;
             padding: 5px;
@@ -931,7 +935,8 @@
             white-space: normal;
         }
 
-        input {
+        input,
+        select {
             min-height: 50px;
             padding: 13px 15px;
             border: 1px solid #d8dce5;
@@ -945,11 +950,13 @@
             color: #777b89;
         }
 
-        input:hover {
+        input:hover,
+        select:hover {
             border-color: #b9afc7;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             border-color: #70418f;
             background: #fff;
             box-shadow: 0 0 0 4px rgba(112, 65, 143, .13);
@@ -957,6 +964,7 @@
         }
 
         input:focus-visible,
+        select:focus-visible,
         button:focus-visible {
             outline: 3px solid #d69931;
             outline-offset: 3px;
@@ -1486,6 +1494,126 @@
                 width: 100%;
             }
         }
+        /* Cadastro guiado: uma etapa por vez, com controles prontos para toque e teclado. */
+        .cad-form { gap: 18px; }
+        .cad-progresso,
+        .cad-etapa { grid-column: 1 / -1; }
+        .cad-progresso { display: grid; gap: 8px; }
+        .cad-progresso-legenda { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-soft); font-size: 11px; font-weight: 800; }
+        .cad-progresso-legenda strong { color: var(--plum); }
+        .cad-trilho { height: 6px; overflow: hidden; border-radius: 999px; background: rgba(86, 42, 67, .1); }
+        .cad-trilho span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--berry), var(--sand)); transition: width .35s ease; }
+        .cad-etapa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; animation: cad-entra .28s ease-out both; }
+        .cad-etapa[hidden], .cad-motivo[hidden] { display: none; }
+        .cad-etapa-titulo, .cad-nota-privacidade, .cad-pergunta, .cad-acoes { grid-column: 1 / -1; }
+        .cad-etapa-titulo { margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.6; }
+        .cad-passo { display: block; color: var(--berry); font-size: 11px; font-weight: 800; letter-spacing: 1.25px; text-transform: uppercase; }
+        .cad-nota-privacidade { margin: 0; padding: 12px 14px; border: 1px solid rgba(147, 74, 104, .14); border-radius: 13px; background: rgba(255, 255, 255, .58); color: var(--ink-soft); font-size: 12px; line-height: 1.6; }
+        .cad-pergunta { min-width: 0; margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, .56); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+        .cad-pergunta:focus-within { border-color: rgba(147, 74, 104, .42); box-shadow: 0 8px 22px -18px rgba(86, 42, 67, .7); }
+        .cad-pergunta legend { max-width: 100%; padding: 0; color: var(--ink); font-size: 14px; font-weight: 800; line-height: 1.55; }
+        .cad-numero { display: inline-grid; width: 25px; height: 25px; margin-right: 7px; place-items: center; border-radius: 9px; background: #f5e7eb; color: var(--plum); font-size: 11px; vertical-align: middle; }
+        .cad-opcoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+        .cad-opcao { position: relative; display: inline-flex; width: auto; height: auto; margin: 0; padding: 0; overflow: visible; clip: auto; white-space: normal; border: 0; }
+        .cad-opcao input { position: absolute; width: 1px; height: 1px; padding: 0; opacity: 0; }
+        .cad-opcao span { display: inline-flex; min-width: 76px; min-height: 42px; align-items: center; justify-content: center; padding: 9px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink-soft); font-size: 13px; font-weight: 800; cursor: pointer; transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+        .cad-opcao:hover span { transform: translateY(-1px); border-color: rgba(147, 74, 104, .36); }
+        .cad-opcao input:checked + span { border-color: var(--plum); background: var(--plum); color: #fff; box-shadow: 0 7px 16px -12px rgba(86, 42, 67, .8); }
+        .cad-opcao input:focus-visible + span { outline: 3px solid var(--sand); outline-offset: 3px; }
+        .cad-motivo { display: grid; grid-template-rows: 0fr; opacity: 0; transform: translateY(-4px); transition: grid-template-rows .22s ease, opacity .22s ease, transform .22s ease; }
+        .cad-motivo.aberto { grid-template-rows: 1fr; opacity: 1; transform: translateY(0); }
+        .cad-motivo > div { min-height: 0; overflow: hidden; }
+        .cad-motivo-label { position: static; display: block; width: auto; height: auto; margin: 0 0 7px; padding: 0; overflow: visible; clip: auto; white-space: normal; border: 0; color: var(--plum); font-size: 12px; font-weight: 800; }
+        .cad-motivo textarea { display: block; width: 100%; min-height: 82px; resize: vertical; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; line-height: 1.5; }
+        .cad-motivo textarea:focus { outline: none; border-color: rgba(147, 74, 104, .6); box-shadow: 0 0 0 4px rgba(147, 74, 104, .09); }
+        .cad-pergunta .cad-motivo { margin-top: 0; }
+        .cad-pergunta .cad-motivo.aberto { margin-top: 12px; }
+        .cad-acoes { display: flex; gap: 12px; }
+        .cad-acoes .btn-principal { flex: 1; margin-top: 4px; }
+        .cad-acoes .btn-finalizar { flex: 1.65; }
+        .cad-voltar { background: rgba(86, 42, 67, .08); color: var(--plum); box-shadow: none; }
+        .cad-voltar:hover { background: rgba(86, 42, 67, .13); box-shadow: none; }
+        .cad-progresso:focus-visible, .cad-etapa :focus-visible, .cad-nota-privacidade:focus-visible { outline: 3px solid var(--sand); outline-offset: 3px; }
+        @keyframes cad-entra { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 900px) {
+            .pagina-login .intro-layout { grid-template-columns: minmax(0, 1fr); max-width: 680px; margin: 0 auto; transform: none; gap: 30px; }
+            .pagina-login .login-painel { max-width: none; }
+            .pagina-login .snct-visual { min-height: 250px; }
+            .pagina-login .snct-visual img { height: 250px; }
+        }
+        @media (max-width: 560px) {
+            .cad-etapa { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+            .cad-etapa-titulo, .cad-nota-privacidade, .cad-pergunta, .cad-acoes { grid-column: 1; }
+            .cad-pergunta { padding: 14px; }
+            .cad-pergunta legend { font-size: 13px; }
+            .cad-opcoes { gap: 8px; }
+            .cad-opcao span { min-width: 82px; }
+            .cad-acoes { flex-direction: column; }
+            .cad-acoes .btn-principal, .cad-acoes .btn-finalizar { flex: auto; }
+        }
+
+        .perfil-usuario {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .perfil-usuario svg { width: 18px; height: 18px; flex: 0 0 auto; }
+        .perfil-usuario.ativo { background: #f1eef5; border-color: rgba(52, 36, 80, .2); }
+
+        .inicio-cabecalho { max-width: 720px; margin: 0 auto 30px; }
+        .inicio-cabecalho .eyebrow { text-align: left; color: var(--berry); }
+        .inicio-cabecalho h1 {
+            margin: 10px 0 12px;
+            color: var(--plum);
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(34px, 5vw, 54px);
+            font-weight: 400;
+            line-height: 1.08;
+            letter-spacing: -.8px;
+        }
+        .inicio-cabecalho p { max-width: 560px; margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.7; }
+        .inicio-cartoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .inicio-cartao {
+            display: flex;
+            min-height: 255px;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 22px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 253, 250, .78);
+            color: var(--ink);
+            text-decoration: none;
+            box-shadow: 0 12px 30px -26px rgba(52, 36, 80, .58);
+            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+        }
+        .inicio-cartao:hover { transform: translateY(-3px); border-color: rgba(112, 65, 143, .34); box-shadow: 0 18px 34px -25px rgba(52, 36, 80, .48); }
+        .inicio-cartao:focus-visible, .inicio-stem:focus-visible { outline: 3px solid var(--sand); outline-offset: 3px; }
+        .inicio-icone {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            margin-bottom: 15px;
+            place-items: center;
+            border-radius: 13px;
+            background: #f1eaf4;
+            color: var(--plum);
+        }
+        .inicio-icone svg { width: 22px; height: 22px; }
+        .inicio-etiqueta { color: var(--berry); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .inicio-cartao h2 { margin: 7px 0 8px; color: var(--plum); font-family: 'DM Serif Display', serif; font-size: 24px; font-weight: 400; line-height: 1.2; }
+        .inicio-cartao p { margin: 0 0 18px; color: var(--ink-soft); font-size: 12px; line-height: 1.65; }
+        .inicio-acao { display: flex; width: 100%; justify-content: space-between; gap: 12px; margin-top: auto; color: var(--plum); font-size: 11px; font-weight: 800; }
+        .inicio-stem { margin-top: 22px; padding: 22px 24px; border: 1px dashed rgba(112, 65, 143, .35); border-radius: 16px; background: #f7f4fa; scroll-margin-top: 24px; }
+        .inicio-stem h2 { margin: 8px 0; color: var(--plum); font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; }
+        .inicio-stem p { max-width: 720px; margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
+        @media (max-width: 700px) {
+            .inicio-cartoes { grid-template-columns: minmax(0, 1fr); }
+            .inicio-cartao { min-height: 0; }
+        }
+
     </style>
 </head>
 
@@ -1493,29 +1621,36 @@
     <!-- Menu Superior -->
     <nav aria-label="Navegação principal">
         <div class="marca">
-            <span class="marca-marca" aria-hidden="true"></span>
-            WoHelp
+            <img class="marca-logo" src="{{ url_for('static', filename='brand/wohelp-logo.png') }}"
+                alt="Logo do WoHelp" width="44" height="44">
+            <span>WoHelp</span>
         </div>
         <div class="menu-botoes" id="menu-botoes">
-            <button type="button" onclick="mudarAba('{% if nome_usuario %}perfil{% else %}cadastro{% endif %}', this)"
-                class="btn-nav ativo" id="btn-cadastro"
-                aria-controls="{% if nome_usuario %}perfil{% else %}cadastro{% endif %}" aria-current="page">
-                {% if nome_usuario %}Meu Perfil{% else %}Cadastro{% endif %}
+            <button type="button" onclick="mudarAba('{% if nome_usuario %}inicio{% else %}cadastro{% endif %}', this)"
+                class="btn-nav {% if not nome_usuario or not abrir_perfil %}ativo{% endif %}"
+                id="{% if nome_usuario %}btn-inicio{% else %}btn-cadastro{% endif %}"
+                aria-controls="{% if nome_usuario %}inicio{% else %}cadastro{% endif %}"
+                {% if not abrir_perfil %}aria-current="page"{% endif %}>
+                {% if nome_usuario %}Início{% else %}Cadastro{% endif %}
             </button>
             <button type="button" onclick="mudarAba('quem-somos', this)" class="btn-nav" id="btn-quem-somos"
                 aria-controls="quem-somos">Quem Somos</button>
             <button type="button" onclick="mudarAba('historia', this)" class="btn-nav" id="btn-historia"
                 aria-controls="historia">História</button>
             <button type="button" onclick="mudarAba('chat', this)" class="btn-nav" id="btn-chat" aria-controls="chat">Chat</button>
-            <!-- BOTÃO NOVO DA PESQUISA -->
-            <button type="button" onclick="mudarAba('pesquisa', this)" class="btn-nav" id="btn-pesquisa" aria-controls="pesquisa">Pesquisa</button>
             <div id="nav-indicador"></div>
         </div>
         <!-- Aparece APENAS se a usuária já estiver cadastrada/logada -->
         {% if nome_usuario %}
-        <button class="perfil-usuario" type="button"
-            onclick="mudarAba('perfil', document.getElementById('btn-cadastro'))">
-            Olá {{ nome_usuario }}
+        <button class="perfil-usuario {% if abrir_perfil %}ativo{% endif %}" type="button"
+            onclick="window.location.href='{{ url_for('perfil') }}'"
+            aria-label="Abrir perfil de {{ nome_usuario }}" {% if abrir_perfil %}aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M4.8 20c.9-3.3 3.3-5.1 7.2-5.1s6.3 1.8 7.2 5.1" />
+            </svg>
+            <span>{{ nome_usuario }}</span>
         </button>
         {% endif %}
     </nav>
@@ -1579,39 +1714,150 @@
                     <div class="mensagem-perfil erro" role="alert">{{ erro_cadastro }}</div>
                     {% endif %}
 
-                    <form action="/cadastrar" method="POST" class="login-form">
-                        <div class="campo">
-                            <label for="nome">Como podemos te chamar?</label>
-                            <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?"
-                                autocomplete="name" maxlength="120" required>
+                    <form action="/cadastrar" method="POST" class="login-form cad-form" id="form-cadastro">
+                        <div class="cad-progresso" id="cad-progresso" role="progressbar"
+                            aria-label="Progresso do cadastro" aria-valuemin="1" aria-valuemax="2"
+                            aria-valuenow="{{ cadastro_etapa|default(1) }}">
+                            <div class="cad-progresso-legenda">
+                                <strong id="cad-progresso-texto">Etapa {{ cadastro_etapa|default(1) }} de 2</strong>
+                                <span id="cad-progresso-ajuda">{% if cadastro_etapa|default(1) == 2 %}Quase lá{% else %}Leva poucos minutos{% endif %}</span>
+                            </div>
+                            <div class="cad-trilho" aria-hidden="true"><span id="cad-progresso-barra"
+                                style="width: {{ '100%' if cadastro_etapa|default(1) == 2 else '50%' }}"></span></div>
                         </div>
 
-                        <div class="campo">
-                            <label for="idade">Sua idade</label>
-                            <input type="number" id="idade" name="idade" placeholder="Qual é a sua idade?" min="1"
-                                max="120" inputmode="numeric" required>
-                        </div>
+                        <section id="cad-etapa-1" class="cad-etapa" aria-labelledby="cad-titulo-etapa-1"
+                            {% if cadastro_etapa|default(1) == 2 %}hidden{% endif %}>
+                            <div class="cad-etapa-titulo">
+                                <span class="cad-passo">Etapa 1 · Seus dados</span>
+                                <p id="cad-titulo-etapa-1">Vamos preparar seu espaço na rede WoHelp.</p>
+                            </div>
+                            <div class="campo">
+                                <label for="nome">Como podemos te chamar?</label>
+                                <input type="text" id="nome" name="nome" value="{{ cadastro_dados.get('nome', '') }}"
+                                    placeholder="Seu nome" autocomplete="name" maxlength="120" required>
+                            </div>
+                            <div class="campo">
+                                <label for="idade">Sua idade</label>
+                                <input type="number" id="idade" name="idade" value="{{ cadastro_dados.get('idade', '') }}"
+                                    placeholder="Idade" min="1" max="120" inputmode="numeric" required>
+                            </div>
+                            <div class="campo">
+                                <label for="curso">Curso</label>
+                                <select id="curso" name="curso" required>
+                                    <option value="" disabled {% if cadastro_dados.get('curso') not in cursos %}selected{% endif %}>Selecione seu curso</option>
+                                    {% for curso in cursos %}
+                                    <option value="{{ curso }}" {% if cadastro_dados.get('curso') == curso %}selected{% endif %}>{{ curso }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="campo">
+                                <label for="turma">Turma</label>
+                                <select id="turma" name="turma" required>
+                                    <option value="" disabled {% if cadastro_dados.get('turma') not in turmas %}selected{% endif %}>Selecione sua turma</option>
+                                    {% for turma in turmas %}
+                                    <option value="{{ turma }}" {% if cadastro_dados.get('turma') == turma %}selected{% endif %}>{{ turma }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="campo">
+                                <label for="aspiracao">Qual é a sua maior aspiração hoje? (opcional)</label>
+                                <input type="text" id="aspiracao" name="aspiracao"
+                                    value="{{ cadastro_dados.get('aspiracao', '') }}"
+                                    placeholder="Uma meta ou sonho (opcional)" maxlength="300">
+                            </div>
+                            <div class="campo">
+                                <label for="universidade">Onde pretende estudar no futuro? (opcional)</label>
+                                <input type="text" id="universidade" name="universidade"
+                                    value="{{ cadastro_dados.get('universidade', '') }}"
+                                    placeholder="Onde pretende estudar no futuro? (opcional)" maxlength="200">
+                            </div>
+                            <button type="button" class="btn-principal" id="cad-continuar" aria-controls="cad-etapa-2">
+                                Continuar
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+                        </section>
 
-                        <div class="campo">
-                            <label for="universidade">Onde pretende estudar? Opcional</label>
-                            <input type="text" id="universidade" name="universidade"
-                                placeholder="Onde pretende estudar? (opcional)" maxlength="200">
-                        </div>
+                        <section id="cad-etapa-2" class="cad-etapa" aria-labelledby="cad-titulo-etapa-2"
+                            {% if cadastro_etapa|default(1) != 2 %}hidden{% endif %}>
+                            <div class="cad-etapa-titulo">
+                                <span class="cad-passo">Etapa 2 · Interesses e experiências</span>
+                                <p id="cad-titulo-etapa-2">Responda às perguntas sobre seus estudos. Nas perguntas sobre violência, você pode optar por não responder e compartilhar apenas o que se sentir confortável.</p>
+                            </div>
 
-                        <div class="campo">
-                            <label for="aspiracao">Qual a sua maior aspiração hoje?</label>
-                            <input type="text" id="aspiracao" name="aspiracao"
-                                placeholder="Qual é a sua maior aspiração hoje?" maxlength="300" required>
-                        </div>
+                            <fieldset class="cad-pergunta" data-question="interesse_area_tecnica" data-trigger="Não" data-require-motive="true">
+                                <legend><span class="cad-numero">1</span>Você entrou no curso com interesse em seguir na área técnica?</legend>
+                                <div class="cad-opcoes">
+                                    <label class="cad-opcao"><input type="radio" name="interesse_area_tecnica" value="Sim"
+                                        {% if cadastro_dados.get('interesse_area_tecnica') == 'Sim' %}checked{% endif %} required><span>Sim</span></label>
+                                    <label class="cad-opcao"><input type="radio" name="interesse_area_tecnica" value="Não"
+                                        {% if cadastro_dados.get('interesse_area_tecnica') == 'Não' %}checked{% endif %}><span>Não</span></label>
+                                </div>
+                                <div class="cad-motivo" data-motivo-container hidden>
+                                    <div><label class="cad-motivo-label" for="motivo_desinteresse">Por quê?</label>
+                                        <textarea id="motivo_desinteresse" name="motivo_desinteresse" maxlength="300"
+                                            aria-label="Por quê? Você entrou no curso sem interesse em seguir na área técnica?"
+                                            placeholder="Conte um pouco do motivo">{{ cadastro_dados.get('motivo_desinteresse', '') }}</textarea></div>
+                                </div>
+                            </fieldset>
 
-                        <button type="submit" class="btn-principal">
-                            Iniciar Jornada
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                                <polyline points="12 5 19 12 12 19" />
-                            </svg>
-                        </button>
+                            <fieldset class="cad-pergunta" data-question="continuar_estudos" data-trigger="Não" data-require-motive="true">
+                                <legend><span class="cad-numero">2</span>Você deseja continuar os estudos depois de concluir o ensino médio integrado?</legend>
+                                <div class="cad-opcoes">
+                                    <label class="cad-opcao"><input type="radio" name="continuar_estudos" value="Sim"
+                                        {% if cadastro_dados.get('continuar_estudos') == 'Sim' %}checked{% endif %} required><span>Sim</span></label>
+                                    <label class="cad-opcao"><input type="radio" name="continuar_estudos" value="Não"
+                                        {% if cadastro_dados.get('continuar_estudos') == 'Não' %}checked{% endif %}><span>Não</span></label>
+                                </div>
+                                <div class="cad-motivo" data-motivo-container hidden>
+                                    <div><label class="cad-motivo-label" for="motivo_continuar_estudos">Por quê?</label>
+                                        <textarea id="motivo_continuar_estudos" name="motivo_continuar_estudos" maxlength="300"
+                                            aria-label="Por quê? Você não deseja continuar os estudos?"
+                                            placeholder="Conte um pouco do motivo">{{ cadastro_dados.get('motivo_continuar_estudos', '') }}</textarea></div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="cad-pergunta" data-question="violencia_curso" data-trigger="Sim">
+                                <legend><span class="cad-numero">3</span>Você sofreu algum tipo de violência no curso, por ser menina, que te desmotivou para seguir na área técnica? (opcional)</legend>
+                                <div class="cad-opcoes">
+                                    <label class="cad-opcao"><input type="radio" name="violencia_curso" value="Sim"
+                                        {% if cadastro_dados.get('violencia_curso') == 'Sim' %}checked{% endif %}><span>Sim</span></label>
+                                    <label class="cad-opcao"><input type="radio" name="violencia_curso" value="Não"
+                                        {% if cadastro_dados.get('violencia_curso') == 'Não' %}checked{% endif %}><span>Não</span></label>
+                                </div>
+                                <div class="cad-motivo" data-motivo-container hidden>
+                                    <div><label class="cad-motivo-label" for="motivo_violencia_curso">Por quê? (opcional)</label>
+                                        <textarea id="motivo_violencia_curso" name="motivo_violencia_curso" maxlength="300"
+                                            aria-label="Por quê? A violência no curso te desmotivou?"
+                                            placeholder="Se quiser, conte apenas o que se sentir confortável em compartilhar">{{ cadastro_dados.get('motivo_violencia_curso', '') }}</textarea></div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="cad-pergunta" data-question="violencia_futura" data-trigger="Sim">
+                                <legend><span class="cad-numero">4</span>Você imagina sofrer algum tipo de violência em curso depois do integrado, na área técnica, que te desmotive, enquanto mulher, a cursar um curso nessas áreas? (opcional)</legend>
+                                <div class="cad-opcoes">
+                                    <label class="cad-opcao"><input type="radio" name="violencia_futura" value="Sim"
+                                        {% if cadastro_dados.get('violencia_futura') == 'Sim' %}checked{% endif %}><span>Sim</span></label>
+                                    <label class="cad-opcao"><input type="radio" name="violencia_futura" value="Não"
+                                        {% if cadastro_dados.get('violencia_futura') == 'Não' %}checked{% endif %}><span>Não</span></label>
+                                </div>
+                                <div class="cad-motivo" data-motivo-container hidden>
+                                    <div><label class="cad-motivo-label" for="motivo_violencia_futura">Por quê? (opcional)</label>
+                                        <textarea id="motivo_violencia_futura" name="motivo_violencia_futura" maxlength="300"
+                                            aria-label="Por quê? Você imagina sofrer violência em um curso técnico depois do integrado?"
+                                            placeholder="Se quiser, conte apenas o que se sentir confortável em compartilhar">{{ cadastro_dados.get('motivo_violencia_futura', '') }}</textarea></div>
+                                </div>
+                            </fieldset>
+
+                            <p class="cad-nota-privacidade">As respostas são associadas ao ID numérico do cadastro para análise. Seu nome é usado para o funcionamento do perfil e da experiência WoHelp.</p>
+                            <div class="cad-acoes">
+                                <button type="button" class="btn-principal cad-voltar" id="cad-voltar" aria-controls="cad-etapa-1">Voltar</button>
+                                <button type="submit" class="btn-principal btn-finalizar">Finalizar cadastro</button>
+                            </div>
+                        </section>
                     </form>
                 </div>
                 <aside class="snct-visual" aria-label="Semana Nacional de Ciência e Tecnologia 2026">
@@ -1622,6 +1868,86 @@
             </div>
             {% endif %}
         </div>
+
+        {% if aluno %}
+        <!-- INÍCIO: atalhos disponíveis após o cadastro/login -->
+        <section id="inicio" class="aba-conteudo {% if not abrir_perfil %}ativa{% endif %}"
+            aria-labelledby="inicio-titulo">
+            <div class="inicio-cabecalho">
+                <span class="eyebrow">Sua rede WoHelp</span>
+                <h1 id="inicio-titulo">Bem-vinda(o), {{ nome_usuario }}.</h1>
+                <p>Explore pesquisas, iniciativas e referências sobre mulheres, ciência e igualdade.</p>
+            </div>
+
+            <div class="inicio-cartoes" aria-label="Links e conteúdos">
+                <a class="inicio-cartao" href="{{ url_for('static', filename='documentos/trabalho-fabiana-freitas-costa.pdf') }}"
+                    target="_blank" rel="noopener noreferrer">
+                    <span class="inicio-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" />
+                            <path d="M14 3.75v4h4M8.5 13h7M8.5 16.5h7" />
+                        </svg>
+                    </span>
+                    <span class="inicio-etiqueta">Pesquisa · PDF</span>
+                    <h2>Trabalho de Fabiana Costa</h2>
+                    <p>Juventude e Educação Profissional de Nível Médio: percursos generificados?</p>
+                    <span class="inicio-acao">Ler o trabalho <span aria-hidden="true">↗</span></span>
+                </a>
+
+                <a class="inicio-cartao" href="https://www.even3.com.br/23-semana-nacional-de-ciencia-e-tecnologia-ifba-campus-simoes-filho-760004/"
+                    target="_blank" rel="noopener noreferrer">
+                    <span class="inicio-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3.5" y="5" width="17" height="15.5" rx="2" />
+                            <path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 13h3M8 16h7" />
+                        </svg>
+                    </span>
+                    <span class="inicio-etiqueta">Evento oficial</span>
+                    <h2>SNCT · Ciência Delas</h2>
+                    <p>Acesse a página da 23ª Semana Nacional de Ciência e Tecnologia do IFBA Campus Simões Filho.</p>
+                    <span class="inicio-acao">Ver página no Even3 <span aria-hidden="true">↗</span></span>
+                </a>
+
+                <a class="inicio-cartao" href="#mulheres-stem">
+                    <span class="inicio-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3.5a7 7 0 0 0-4.4 12.45c.8.65 1.4 1.32 1.65 2.3h5.5c.25-.98.85-1.65 1.65-2.3A7 7 0 0 0 12 3.5Z" />
+                            <path d="M9.5 21h5M9.7 18.25h4.6M12 7v4m-2-2h4" />
+                        </svg>
+                    </span>
+                    <span class="inicio-etiqueta">Em breve</span>
+                    <h2>Mulheres no campo STEM</h2>
+                    <p>Um espaço para conhecer mulheres relevantes na ciência, tecnologia, engenharia e matemática.</p>
+                    <span class="inicio-acao">Ver espaço informativo <span aria-hidden="true">↓</span></span>
+                </a>
+
+                <a class="inicio-cartao" href="https://brasil.un.org/pt-br/sdgs/05"
+                    target="_blank" rel="noopener noreferrer">
+                    <span class="inicio-icone" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="8.5" />
+                            <path d="M3.8 12h16.4M12 3.5c2.2 2.35 3.3 5.18 3.3 8.5S14.2 18.15 12 20.5C9.8 18.15 8.7 15.32 8.7 12S9.8 5.85 12 3.5Z" />
+                        </svg>
+                    </span>
+                    <span class="inicio-etiqueta">Nações Unidas</span>
+                    <h2>ODS 5 · Igualdade de gênero</h2>
+                    <p>Conheça o objetivo da ONU de alcançar igualdade de gênero e empoderar mulheres e meninas.</p>
+                    <span class="inicio-acao">Acessar página da ONU <span aria-hidden="true">↗</span></span>
+                </a>
+            </div>
+
+            <section class="inicio-stem" id="mulheres-stem" tabindex="-1" aria-labelledby="mulheres-stem-titulo">
+                <span class="inicio-etiqueta">Espaço em construção</span>
+                <h2 id="mulheres-stem-titulo">Mulheres que transformam o campo STEM</h2>
+                <p>Em breve, este espaço reunirá informações sobre mulheres relevantes na ciência, tecnologia,
+                    engenharia e matemática.</p>
+            </section>
+        </section>
+        {% endif %}
 
         <!-- ABA: PERFIL DA ALUNA -->
         {% if aluno %}
@@ -1661,15 +1987,15 @@
                             max="120" inputmode="numeric" required>
                     </div>
                     <div class="campo">
-                        <label for="perfil-universidade">Onde pretende estudar? Opcional</label>
+                        <label for="perfil-universidade">Onde pretende estudar no futuro? (opcional)</label>
                         <input type="text" id="perfil-universidade" name="universidade"
-                            value="{{ aluno['universidade'] or '' }}" placeholder="Onde pretende estudar? (opcional)"
+                            value="{{ aluno['universidade'] or '' }}" placeholder="Onde pretende estudar no futuro? (opcional)"
                             maxlength="200">
                     </div>
                     <div class="campo">
                         <label for="perfil-aspiracao">Qual é a sua maior aspiração hoje?</label>
                         <input type="text" id="perfil-aspiracao" name="aspiracao" value="{{ aluno['aspiracao'] }}"
-                            maxlength="300" required>
+                            maxlength="300">
                     </div>
                     <button type="submit" class="btn-principal">
                         Salvar alterações
@@ -1841,84 +2167,6 @@
             {% endif %}
         </div>
 
-        <!-- ABA: PESQUISA (DUAS ETAPAS) -->
-        <div id="pesquisa" class="aba-conteudo">
-            <div class="intro-layout" style="grid-template-columns: 1fr; max-width: 660px; margin: 0 auto; transform: none;">
-                <div class="login-painel" style="max-width: 100%;">
-                    <div class="intro-copy" style="text-align: center;">
-                        <span class="eyebrow">Participe</span>
-                        <h2>Pesquisa WoHelp</h2>
-                        <p class="subtitulo" style="margin-inline: auto;">Sua voz ajuda a mapear e transformar a jornada de outras meninas na área técnica.</p>
-                    </div>
-
-                    {% if pesquisa_sucesso %}
-                    <div class="alerta" role="status">Pesquisa concluída! Muito obrigada por compartilhar sua visão com a gente.</div>
-                    {% else %}
-                    <form action="/pesquisa" method="POST" class="login-form" style="grid-template-columns: 1fr;">
-                        
-                        <!-- ETAPA 1 -->
-                        <div id="pesquisa-aba-1" style="display: grid; grid-template-columns: 1fr; gap: 14px;">
-                            <div class="campo">
-                                <label for="pesquisa-nome">Como podemos te chamar?</label>
-                                <!-- Atenção: o input de nome NÃO possui o atributo 'name', logo o navegador descarta e NUNCA o envia ao backend -->
-                                <input type="text" id="pesquisa-nome" placeholder="Seu nome (não será salvo)" required>
-                            </div>
-                            <div class="campo">
-                                <label for="pesquisa-idade">Idade</label>
-                                <input type="number" id="pesquisa-idade" name="idade" placeholder="Qual sua idade?" min="1" max="120" required>
-                            </div>
-                            <div class="campo">
-                                <label for="pesquisa-curso">Curso</label>
-                                <input type="text" id="pesquisa-curso" name="curso" placeholder="Qual é o seu curso?" required>
-                            </div>
-                            <div class="campo">
-                                <label for="pesquisa-turma">Turma</label>
-                                <input type="text" id="pesquisa-turma" name="turma" placeholder="Qual é a sua turma?" required>
-                            </div>
-
-                            <button type="button" class="btn-principal" onclick="avancarPesquisa()">
-                                Continuar
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </button>
-                        </div>
-
-                        <!-- ETAPA 2 -->
-                        <div id="pesquisa-aba-2" style="display: none; grid-template-columns: 1fr; gap: 16px;">
-                            <div class="campo">
-                                <label style="display: block; margin-bottom: 8px; white-space: normal;">1. Você entrou no curso com interesse em seguir na área técnica?</label>
-                                <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 14px;">
-                                    <label style="display: flex; align-items: center; gap: 6px;"><input type="radio" name="interesse_area_tecnica" value="Sim" onclick="toggleMotivo(false)" style="width: auto; min-height: auto;" required> Sim</label>
-                                    <label style="display: flex; align-items: center; gap: 6px;"><input type="radio" name="interesse_area_tecnica" value="Não" onclick="toggleMotivo(true)" style="width: auto; min-height: auto;"> Não</label>
-                                </div>
-                                <div id="container-motivo" style="display: none;">
-                                    <label for="motivo_desinteresse" style="margin-top: 8px;">Qual o motivo?</label>
-                                    <input type="text" id="motivo_desinteresse" name="motivo_desinteresse" placeholder="Nos conte o motivo">
-                                </div>
-                            </div>
-                            <div class="campo">
-                                <label for="continuar_estudos" style="display: block; margin-bottom: 8px; white-space: normal;">2. Você deseja continuar os estudos depois de concluir o ensino médio integrado?</label>
-                                <input type="text" id="continuar_estudos" name="continuar_estudos" placeholder="Sua resposta" required>
-                            </div>
-                            <div class="campo">
-                                <label for="violencia_curso" style="display: block; margin-bottom: 8px; white-space: normal;">3. Você sofreu algum tipo de violência no curso, por ser menina, que te desmotivou para seguir na área técnica?</label>
-                                <input type="text" id="violencia_curso" name="violencia_curso" placeholder="Sua resposta" required>
-                            </div>
-                            <div class="campo">
-                                <label for="violencia_futura" style="display: block; margin-bottom: 8px; white-space: normal;">4. Você imagina sofrer algum tipo de violência em curso depois do integrado, na área técnica, que te desmotive, enquanto mulher, a cursar um curso nessas áreas?</label>
-                                <input type="text" id="violencia_futura" name="violencia_futura" placeholder="Sua resposta" required>
-                            </div>
-
-                            <div style="display: flex; gap: 12px;">
-                                <button type="button" class="btn-principal" style="background: #eef1f6; color: #342450; box-shadow: none;" onclick="voltarPesquisa()">Voltar</button>
-                                <button type="submit" class="btn-principal" style="flex: 2;">Enviar Pesquisa</button>
-                            </div>
-                        </div>
-                    </form>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
         <!-- Script para as abas -->
         <script>
             function moverIndicador(botao) {
@@ -1939,8 +2187,15 @@
 
                 document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('ativo'));
                 document.querySelectorAll('.btn-nav').forEach(b => b.removeAttribute('aria-current'));
-                botao.classList.add('ativo');
-                botao.setAttribute('aria-current', 'page');
+                const botaoPerfil = document.querySelector('.perfil-usuario');
+                if (botaoPerfil) {
+                    botaoPerfil.classList.remove('ativo');
+                    botaoPerfil.removeAttribute('aria-current');
+                }
+                if (botao) {
+                    botao.classList.add('ativo');
+                    botao.setAttribute('aria-current', 'page');
+                }
                 moverIndicador(botao);
 
                 if (abaAtual) {
@@ -1951,49 +2206,81 @@
                 proximaAba.classList.add('ativa');
             }
 
-            window.addEventListener('load', () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('pesquisa_sucesso')) {
-                    const btnPesquisa = document.getElementById('btn-pesquisa');
-                    if (btnPesquisa) mudarAba('pesquisa', btnPesquisa);
-                } else {
-                    const botaoAtivo = document.querySelector('.btn-nav.ativo');
-                    if (botaoAtivo) moverIndicador(botaoAtivo);
+            function mudarEtapaCadastro(numero) {
+                const proxima = document.getElementById(`cad-etapa-${numero}`);
+                const atual = document.querySelector('.cad-etapa:not([hidden])');
+                const barra = document.getElementById('cad-progresso-barra');
+                const progresso = document.getElementById('cad-progresso');
+                const texto = document.getElementById('cad-progresso-texto');
+                const ajuda = document.getElementById('cad-progresso-ajuda');
+                if (!proxima || proxima === atual) return;
+
+                if (atual) atual.hidden = true;
+                proxima.hidden = false;
+                proxima.classList.remove('cad-entrando');
+                void proxima.offsetWidth;
+                proxima.classList.add('cad-entrando');
+
+                if (barra) barra.style.width = numero === 2 ? '100%' : '50%';
+                if (progresso) progresso.setAttribute('aria-valuenow', String(numero));
+                if (texto) texto.textContent = `Etapa ${numero} de 2`;
+                if (ajuda) ajuda.textContent = numero === 2 ? 'Quase lá' : 'Leva poucos minutos';
+
+                const primeiroCampo = proxima.querySelector('input:checked') ||
+                    proxima.querySelector('input:not([type="radio"]), input[type="radio"], button');
+                if (primeiroCampo) primeiroCampo.focus({ preventScroll: true });
+                const movimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                window.scrollTo({ top: document.getElementById('form-cadastro').getBoundingClientRect().top + window.scrollY - 24,
+                    behavior: movimentoReduzido ? 'auto' : 'smooth' });
+            }
+
+            function avancarCadastro() {
+                const etapa = document.getElementById('cad-etapa-1');
+                if (!etapa) return;
+                for (const campo of etapa.querySelectorAll('input')) {
+                    if (!campo.reportValidity()) return;
                 }
+                mudarEtapaCadastro(2);
+            }
+
+            function voltarCadastro() {
+                mudarEtapaCadastro(1);
+            }
+
+            function atualizarCampoMotivo(pergunta) {
+                const selecionada = pergunta.querySelector('input[type="radio"]:checked');
+                const motivo = pergunta.querySelector('[data-motivo-container]');
+                const texto = motivo && motivo.querySelector('textarea');
+                if (!motivo || !texto) return;
+
+                const mostrar = Boolean(selecionada && selecionada.value === pergunta.dataset.trigger);
+                texto.required = mostrar && pergunta.dataset.requireMotive === 'true';
+                if (mostrar) {
+                    motivo.hidden = false;
+                    requestAnimationFrame(() => motivo.classList.add('aberto'));
+                } else {
+                    motivo.classList.remove('aberto');
+                    texto.value = '';
+                    window.setTimeout(() => {
+                        if (!motivo.classList.contains('aberto')) motivo.hidden = true;
+                    }, 230);
+                }
+            }
+
+            document.querySelectorAll('.cad-pergunta').forEach(pergunta => {
+                pergunta.querySelectorAll('input[type="radio"]').forEach(opcao => {
+                    opcao.addEventListener('change', () => atualizarCampoMotivo(pergunta));
+                });
+                atualizarCampoMotivo(pergunta);
             });
 
-            // Lógica interna da nova pesquisa (transição das etapas 1 e 2)
-            function avancarPesquisa() {
-                const nome = document.getElementById('pesquisa-nome').value.trim();
-                const idade = document.getElementById('pesquisa-idade').value.trim();
-                const curso = document.getElementById('pesquisa-curso').value.trim();
-                const turma = document.getElementById('pesquisa-turma').value.trim();
+            document.getElementById('cad-continuar')?.addEventListener('click', avancarCadastro);
+            document.getElementById('cad-voltar')?.addEventListener('click', voltarCadastro);
 
-                if (!nome || !idade || !curso || !turma) {
-                    alert('Preencha todos os campos para continuar.');
-                    return;
-                }
-                document.getElementById('pesquisa-aba-1').style.display = 'none';
-                document.getElementById('pesquisa-aba-2').style.display = 'grid';
-            }
-
-            function voltarPesquisa() {
-                document.getElementById('pesquisa-aba-2').style.display = 'none';
-                document.getElementById('pesquisa-aba-1').style.display = 'grid';
-            }
-
-            function toggleMotivo(mostrar) {
-                const container = document.getElementById('container-motivo');
-                const input = document.getElementById('motivo_desinteresse');
-                if (mostrar) {
-                    container.style.display = 'block';
-                    input.required = true;
-                } else {
-                    container.style.display = 'none';
-                    input.required = false;
-                    input.value = '';
-                }
-            }
+            window.addEventListener('load', () => {
+                const botao = document.querySelector('.btn-nav.ativo');
+                if (botao) moverIndicador(botao);
+            });
 
             window.addEventListener('resize', () => {
                 const botaoAtivo = document.querySelector('.btn-nav.ativo');
