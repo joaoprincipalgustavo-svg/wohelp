@@ -35,6 +35,17 @@ Exemplo:
 
 Erros de validação retornam `400` com `{ "error": "..." }`; a leitura/edição sem uma sessão válida retorna `401`. Idade aceita inteiros de 1 a 120, e os campos de texto têm limites de tamanho. Os formulários HTML antigos (`/cadastrar`, `/perfil/atualizar`) seguem disponíveis.
 
+### Leitura das tabelas no PostgreSQL
+
+No `psql`, use `\x auto` antes da consulta. O `psql` passa automaticamente para o formato expandido (uma linha por registro) quando a tabela não cabe na largura do terminal:
+
+```sql
+\x auto
+SELECT * FROM alunos;
+```
+
+Isso altera somente a apresentação no cliente `psql`, não o formato nem os dados armazenados no PostgreSQL. Para aplicar em todas as sessões, adicione `\x auto` ao arquivo `~/.psqlrc`.
+
 ## Configuração
 
 - `DATABASE_URL`: URL SQLAlchemy do banco. Ausente, usa o SQLite incluído. Para PostgreSQL use a connection string do provedor escolhido, como Neon.

@@ -1704,7 +1704,7 @@
         </div>
 
         <!-- ABA PRINCIPAL (Cadastro ou Perfil Liberado) -->
-        <div id="cadastro" class="aba-conteudo {% if not abrir_perfil %}ativa{% endif %}">
+        <div id="cadastro" class="aba-conteudo {% if not aluno and not abrir_perfil %}ativa{% endif %}">
 
             {% if nome_usuario %}
             <!-- Acabou de se cadastrar: mostra a mensagem de boas-vindas -->
