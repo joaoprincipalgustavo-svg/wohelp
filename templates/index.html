@@ -158,15 +158,95 @@
             backdrop-filter: blur(18px);
         }
 
-        .decor-bloom {
+        .decor-brand {
             position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 260px;
-            height: 260px;
-            opacity: .055;
+            top: -78px;
+            right: -76px;
+            display: grid;
+            width: 270px;
+            height: 270px;
+            place-items: center;
+            opacity: .12;
             pointer-events: none;
             z-index: 0;
+        }
+
+        .brand-emblem {
+            position: relative;
+            display: grid;
+            width: 150px;
+            aspect-ratio: 1;
+            place-items: center;
+            isolation: isolate;
+            animation: emblem-arrive .95s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .brand-emblem::before {
+            position: absolute;
+            inset: 16%;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 69, 124, .22), rgba(147, 74, 104, .04) 62%, transparent 74%);
+            filter: blur(7px);
+            content: '';
+        }
+
+        .brand-emblem img {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            filter: drop-shadow(0 8px 14px rgba(86, 42, 67, .2));
+        }
+
+        .brand-orbit {
+            position: absolute;
+            width: 116%;
+            height: 48%;
+            border: 1.5px solid rgba(166, 35, 85, .42);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .brand-orbit::before {
+            position: absolute;
+            top: calc(50% - 4px);
+            left: -4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c9457c;
+            box-shadow: 0 0 12px rgba(201, 69, 124, .85);
+            content: '';
+        }
+
+        .brand-orbit--one {
+            transform: rotate(-42deg) scaleX(1.04);
+        }
+
+        .brand-orbit--two {
+            width: 108%;
+            height: 42%;
+            border-color: rgba(86, 42, 120, .38);
+            transform: rotate(48deg) scaleX(1.07);
+        }
+
+        .brand-orbit--two::before {
+            background: #7939a6;
+            box-shadow: 0 0 12px rgba(121, 57, 166, .8);
+        }
+
+        .brand-emblem--quiet { width: 225px; }
+        .brand-emblem--quiet img { filter: grayscale(.15) drop-shadow(0 8px 14px rgba(86, 42, 67, .16)); }
+        .brand-emblem--welcome { width: 128px; margin-bottom: 4px; }
+
+        @keyframes emblem-arrive {
+            0% { opacity: 0; transform: scale(.55); }
+            72% { opacity: 1; transform: scale(1.07); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .aba-conteudo {
@@ -257,7 +337,7 @@
             overflow: visible;
         }
 
-        .pagina-login .decor-bloom {
+        .pagina-login .decor-brand {
             display: none;
         }
 
@@ -552,61 +632,12 @@
             outline-offset: 2px;
         }
 
-        /* ===== Tela de acesso liberado ===== */
-        .bloom-wrap {
+        /* ===== Marca animada na tela de boas-vindas ===== */
+        .marca-boas-vindas {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-        }
-
-        .bloom-svg {
-            margin-bottom: 6px;
-        }
-
-        .petal {
-            transform-origin: 100px 100px;
-            opacity: 0;
-            transform: scale(0);
-            animation: brotar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .p1 {
-            animation-delay: 0.05s;
-        }
-
-        .p2 {
-            animation-delay: 0.15s;
-        }
-
-        .p3 {
-            animation-delay: 0.25s;
-        }
-
-        .p4 {
-            animation-delay: 0.35s;
-        }
-
-        .p5 {
-            animation-delay: 0.45s;
-        }
-
-        .p6 {
-            animation-delay: 0.5s;
-        }
-
-        .miolo {
-            transform-origin: 100px 100px;
-            opacity: 0;
-            transform: scale(0);
-            animation: brotar 0.5s ease 0.62s forwards;
-        }
-
-        @keyframes brotar {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            gap: 2px;
         }
 
         .alerta {
@@ -1281,6 +1312,13 @@
             color: #8a8493;
         }
 
+        .qs-fonte a,
+        .qs-citacao {
+            color: var(--berry);
+            font-weight: 700;
+            text-underline-offset: 2px;
+        }
+
         .hist-lead {
             max-width: 640px;
             margin: 14px auto 0;
@@ -1657,44 +1695,25 @@
 
     <!-- Área Principal -->
     <main class="container">
-        <svg class="decor-bloom" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-            <ellipse cx="100" cy="55" rx="26" ry="42" fill="#A62355" />
-            <ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355" />
-            <ellipse cx="100" cy="145" rx="26" ry="42" fill="#A62355" />
-            <ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355" />
-        </svg>
+        <div class="decor-brand" aria-hidden="true">
+            <div class="brand-emblem brand-emblem--quiet">
+                <span class="brand-orbit brand-orbit--one"></span>
+                <span class="brand-orbit brand-orbit--two"></span>
+                <img src="{{ url_for('static', filename='brand/wohelp-logo.png') }}" alt="">
+            </div>
+        </div>
 
         <!-- ABA PRINCIPAL (Cadastro ou Perfil Liberado) -->
         <div id="cadastro" class="aba-conteudo {% if not abrir_perfil %}ativa{% endif %}">
 
             {% if nome_usuario %}
             <!-- Acabou de se cadastrar: mostra a mensagem de boas-vindas -->
-            <div class="bloom-wrap">
-                <svg class="bloom-svg" width="110" height="110" viewBox="0 0 200 200" aria-hidden="true">
-                    <g class="petal p1">
-                        <ellipse cx="100" cy="55" rx="26" ry="42" fill="#C9457C" />
-                    </g>
-                    <g class="petal p2">
-                        <ellipse cx="145" cy="100" rx="42" ry="26" fill="#A62355" />
-                    </g>
-                    <g class="petal p3">
-                        <ellipse cx="100" cy="145" rx="26" ry="42" fill="#C9457C" />
-                    </g>
-                    <g class="petal p4">
-                        <ellipse cx="55" cy="100" rx="42" ry="26" fill="#A62355" />
-                    </g>
-                    <g transform="rotate(45 100 100)">
-                        <g class="petal p5">
-                            <ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7" />
-                        </g>
-                    </g>
-                    <g transform="rotate(-45 100 100)">
-                        <g class="petal p6">
-                            <ellipse cx="100" cy="55" rx="20" ry="34" fill="#F2AFC7" />
-                        </g>
-                    </g>
-                    <circle class="miolo" cx="100" cy="100" r="19" fill="#E2A54D" />
-                </svg>
+            <div class="marca-boas-vindas">
+                <div class="brand-emblem brand-emblem--welcome" aria-hidden="true">
+                    <span class="brand-orbit brand-orbit--one"></span>
+                    <span class="brand-orbit brand-orbit--two"></span>
+                    <img src="{{ url_for('static', filename='brand/wohelp-logo.png') }}" alt="">
+                </div>
                 <h2> Bem vinda(o)</h2>
             </div>
             <div class="alerta" role="status">{% if mensagem %}{{ mensagem }}{% else %}Cadastro realizado com sucesso.
@@ -1910,7 +1929,8 @@
                     <span class="inicio-acao">Ver página no Even3 <span aria-hidden="true">↗</span></span>
                 </a>
 
-                <a class="inicio-cartao" href="#mulheres-stem">
+                <a class="inicio-cartao" href="{{ url_for('mulheres_na_ciencia') }}"
+                    target="_blank" rel="noopener noreferrer">
                     <span class="inicio-icone" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -1918,10 +1938,10 @@
                             <path d="M9.5 21h5M9.7 18.25h4.6M12 7v4m-2-2h4" />
                         </svg>
                     </span>
-                    <span class="inicio-etiqueta">Em breve</span>
-                    <h2>Mulheres no campo STEM</h2>
-                    <p>Um espaço para conhecer mulheres relevantes na ciência, tecnologia, engenharia e matemática.</p>
-                    <span class="inicio-acao">Ver espaço informativo <span aria-hidden="true">↓</span></span>
+                    <span class="inicio-etiqueta">Histórias de ciência</span>
+                    <h2>Mulheres que merecem reconhecimento na ciência</h2>
+                    <p>Quatro trajetórias brasileiras e internacionais que merecem ser lembradas.</p>
+                    <span class="inicio-acao">Conhecer as histórias <span aria-hidden="true">↗</span></span>
                 </a>
 
                 <a class="inicio-cartao" href="https://brasil.un.org/pt-br/sdgs/05"
@@ -1940,12 +1960,6 @@
                 </a>
             </div>
 
-            <section class="inicio-stem" id="mulheres-stem" tabindex="-1" aria-labelledby="mulheres-stem-titulo">
-                <span class="inicio-etiqueta">Espaço em construção</span>
-                <h2 id="mulheres-stem-titulo">Mulheres que transformam o campo STEM</h2>
-                <p>Em breve, este espaço reunirá informações sobre mulheres relevantes na ciência, tecnologia,
-                    engenharia e matemática.</p>
-            </section>
         </section>
         {% endif %}
 
@@ -2041,8 +2055,11 @@
                         <span class="qs-tag">Quem queremos apoiar</span>
                         <h3>Estudantes do 2º ano em Simões Filho</h3>
                         <p>Nosso foco são as estudantes que pensam em seguir no campo científico. O campus tem oferta
-                            exclusiva de cursos industriais e, segundo pesquisa com egressos do IFBA, as mulheres são
-                            minoria entre quem conseguiu estágio remunerado em empresas.</p>
+                            exclusiva de cursos industriais e, no estudo de <a class="qs-citacao"
+                                href="{{ url_for('static', filename='documentos/trabalho-fabiana-freitas-costa.pdf') }}"
+                                target="_blank" rel="noopener noreferrer">Fabiana Freitas Costa (2025, pp. 11–12)</a>
+                            com egressos de dois campi do IFBA, as mulheres foram minoria entre quem conseguiu estágio
+                            remunerado em empresas.</p>
                     </article>
                     <article class="qs-card">
                         <span class="qs-tag">Tecnologia e STEM</span>
@@ -2060,13 +2077,20 @@
                     <div class="qs-dado"><strong>14% vs. 26%</strong><span>das meninas e dos meninos de 15 anos,
                             respectivamente, esperavam trabalhar em ocupações STEM (PISA 2022, América Latina e
                             Caribe).</span></div>
-                    <div class="qs-dado"><strong>23,84% vs. 46,02%</strong><span>das mulheres e dos homens egressos do
-                            ensino técnico industrial do IFBA já haviam atuado na área do curso.</span></div>
+                    <div class="qs-dado"><strong>23,84% vs. 46,02%</strong><span>das mulheres e dos homens entre os
+                            265 participantes que chegaram ao 4º e último ano já haviam atuado profissionalmente na
+                            área do curso, sem contar estágio curricular (<a class="qs-citacao"
+                                href="{{ url_for('static', filename='documentos/trabalho-fabiana-freitas-costa.pdf') }}"
+                                target="_blank" rel="noopener noreferrer">Costa, 2025, p. 13</a>).</span></div>
                     <div class="qs-dado"><strong>35,6%</strong><span>das bolsas de produtividade em pesquisa do CNPq
                             analisadas em estudo de 2021 eram de mulheres.</span></div>
                 </div>
-                <p class="qs-fonte">Fontes: OCDE (2022; 2025); Costa (2025), 22º Congresso Brasileiro de Sociologia;
-                    estudo publicado na revista Saúde em Debate (2021).</p>
+                <p class="qs-fonte"><strong>Referências:</strong> OCDE (2022; 2025); COSTA, Fabiana Freitas.
+                    <em>Juventude e Educação Profissional de Nível Médio: percursos generificados?</em> Trabalho
+                    apresentado no 22º Congresso Brasileiro de Sociologia, CP30 – Sociologia da Juventude, São Paulo,
+                    2025. <a href="{{ url_for('static', filename='documentos/trabalho-fabiana-freitas-costa.pdf') }}"
+                        target="_blank" rel="noopener noreferrer">Acessar trabalho em PDF</a>; estudo publicado na
+                    revista Saúde em Debate (2021).</p>
             </div>
         </div>
 
@@ -2099,11 +2123,14 @@
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 3 · Na formação técnica</span>
                         <h3>O caminho no IFBA</h3>
-                        <p>Pesquisa com egressos de dois campi do IFBA, Salvador e Simões Filho, mostra que as mulheres
-                            eram maioria entre as 338 participantes do questionário, mas minoria entre quem realizou
-                            estágio remunerado em empresas. Entre quem chegou ao último ano do curso, 23,84% das
-                            mulheres já haviam atuado na área, contra 46,02% dos homens. As trajetórias podem começar
-                            com oportunidades diferentes.</p>
+                        <p>Pesquisa de <a class="qs-citacao"
+                                href="{{ url_for('static', filename='documentos/trabalho-fabiana-freitas-costa.pdf') }}"
+                                target="_blank" rel="noopener noreferrer">Fabiana Freitas Costa (2025, pp. 4–5, 11–13)</a>
+                            com egressos dos campi Salvador e Simões Filho teve 338 participantes; 56% se identificaram
+                            com o gênero feminino. Entre os 265 que chegaram ao 4º e último ano, as mulheres foram
+                            minoria entre quem conseguiu estágio remunerado em empresas. Nesse mesmo grupo, 23,84% das
+                            mulheres e 46,02% dos homens já haviam atuado profissionalmente na área do curso, sem
+                            contar estágio curricular. As trajetórias podem começar com oportunidades diferentes.</p>
                     </div>
                     <div class="hist-item">
                         <span class="hist-etapa">Etapa 4 · Na carreira científica</span>

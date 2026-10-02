@@ -235,6 +235,10 @@ def create_app(test_config=None):
                                nome_usuario=student["nome"] if student else None,
                                abrir_perfil=False, cadastro_dados={}, cadastro_etapa=1)
 
+    @app.get("/mulheres-na-ciencia")
+    def mulheres_na_ciencia():
+        return render_template("mulheres_stem.html")
+
     @app.post("/cadastrar")
     def cadastrar():
         data, error = validate_data(request.form.to_dict(), survey=True)
